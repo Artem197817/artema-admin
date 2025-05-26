@@ -1,0 +1,10 @@
+.layout{
+  display: flex;
+  .dashboard{
+    width: 300px;
+    box-sizing: border-box;
+  }
+  .content{
+    padding: 100px 25px;
+  }
+}
