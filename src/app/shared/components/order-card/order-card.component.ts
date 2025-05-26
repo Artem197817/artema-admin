@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {OrderDTOMini} from '../../../types/order-mini.type';
+import {OrderMini} from '../../../types/order-mini.type';
 import {TruncateTextPipe} from '../../../utils/truncate-text.pipe';
 import {RouterLink} from '@angular/router';
 
@@ -15,5 +15,5 @@ import {RouterLink} from '@angular/router';
 })
 export class OrderCardComponent {
 
-  @Input() order!: OrderDTOMini;
+  @Input() order!: OrderMini;
 }

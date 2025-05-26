@@ -7,5 +7,6 @@ export const routes: Routes = [
     component: LayoutComponent,
     children: [
       {path: '', component: MainComponent},
+      {path: 'order/:orderId', loadComponent: () => import('./shared').then(m => m.OrderComponent)},
     ]}
 ];

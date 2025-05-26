@@ -1,6 +1,6 @@
 import {Status} from './status.types';
 
-export interface OrderDTOMini {
+export interface OrderMini {
 
   customerName: string;
   customerLastName?: string;
