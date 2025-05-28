@@ -10,10 +10,10 @@ import {OrderMini} from '../types/order-mini.type';
 })
 export class OrderService {
 
-  private url = environment.api + '/order';
+  private url = environment.api + 'order';
   constructor(private http: HttpClient) { }
 
   public findOrdersByStatus(status: StatusRequest): Observable<OrderMini[]> {
-    return this.http.get<OrderMini[]>(this.url +`/${status}`);
+    return this.http.get<OrderMini[]>(this.url +`/status/${status}`);
   }
 }
