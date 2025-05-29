@@ -5,12 +5,15 @@ export interface OrderStatus {
     dateOfChange: string; // ISO date string, e.g. '2025-05-29'
     comment?: string;
   }
-  
+
   // Payment Interface
   export interface Payment {
     payment: number;
+    paymentDate: string;
+    comment: string;
+    orderId?: number;
   }
-  
+
   // OrderFile Interface
   export interface OrderFile {
     id: number;
@@ -18,7 +21,7 @@ export interface OrderStatus {
     contentType: string;
     data: any; // Обычно это base64-строка или Blob, зависит от API
   }
-  
+
   // OrderPayment Interface
   export interface OrderPayment {
     id: number;
@@ -28,7 +31,7 @@ export interface OrderStatus {
     comment?: string;
     listHistoryPayment: Payment[];
   }
-  
+
   // Order Interface
   export interface Order {
     id: number;
