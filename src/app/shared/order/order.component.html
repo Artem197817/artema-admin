@@ -1,1 +1,57 @@
-<p>order works!</p>
+<section class="order">
+    <div class="second-container">
+        <div class="order-detail">
+            @if(customer){
+                <div class="order-customer-block">
+                    <div class="order-customer-name">
+                        <div class="order-customer-name-title title-h5">Имя:</div>
+                        <span class="name">{{customer.name}}</span>
+                        @if(customer.lastName){
+                            <span class="last-name">{{customer.lastName}}</span>
+                        }
+                        @if(customer.fatherName){
+                            <span class="father-name">{{customer.fatherName}}</span>
+                        }
+                    </div>
+                    <div class="order-customer-contact">
+                        <div class="order-customer-contact-title title-h5">Контакты:</div>
+                        <div class="ordrer-customer-contact-phone">Телефон: {{customer.phone}}</div>
+                        <div class="ordrer-customer-contact-email">e-mail: {{customer.email}}</div>
+                    </div>
+                    @if(customer.comment){
+                        <div class="order-customer-comment">
+                            <div class="order-customer-comment-title title-h5">Комментарий</div>
+                            <div class="order-customer-comment-comment">{{customer.comment}}</div>
+                        </div>
+                    }
+                </div>
+                <a [routerLink]="['/edit-customer', customer.id]" class="button">Редактировать</a>
+              }
+           @if(order){
+            <div class="order-block">
+                @if(order.orderName){
+                    <div class="order-title title-h3">{{order.orderName}}</div>
+                }
+                @if(!order.orderName){
+                    <div class="order-title title-h3">Просто заказ</div> 
+                }
+               <div class="order-description">
+                <div class="order-description-title title-h4">Описание:</div>
+                @if(order.orderDescription){
+                    <div class="order-description-text">{{order.orderDescription}}</div>
+                }
+               </div>
+               <div class="order-status-block">
+                <div class="order-status">{{order.orderStatus.status}}</div>
+                <div class="order-status-change-data">{{order.orderStatus.dateOfChange}}</div>
+                <div class="order-status-comment">{{order.orderStatus.comment}}</div>
+                <div class="order-status-history">
+                    
+                </div>
+               </div>
+            </div>
+           }
+        </div>
+    
+    </div>
+</section>
