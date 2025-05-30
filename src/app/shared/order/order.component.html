@@ -42,16 +42,85 @@
                 }
                </div>
                <div class="order-status-block">
-                <div class="order-status">{{order.orderStatus.status}}</div>
-                <div class="order-status-change-data">{{order.orderStatus.dateOfChange}}</div>
-                <div class="order-status-comment">{{order.orderStatus.comment}}</div>
+                <div class="order-status">Статус: {{order.orderStatus.status}}</div>
+                <div class="order-status-change-data">Дата изменения: {{order.orderStatus.dateOfChange}}</div>
+                <div class="order-status-comment">Комментарий: {{order.orderStatus.comment}}</div>
                 <div class="order-status-history">
-                    
+                    <div class="order-status-history-title title-h4">История заказа</div>
+                    @for(orderSH of orderStatusHistoryShort; track orderSH){
+                        <span class="order-status-short">{{orderSH.status}}</span>
+                        <span class="order-status-change-data-short">{{orderSH.dateOfChange}}</span>
+                        <span class="order-status-comment-short">{{orderSH.comment}}</span>
+                    }
+                    @if(order && order.orderHistoryList && order.orderHistoryList.length > 3){
+                     <button class="button button-mini" (click)="changeIsHistoryActive()">Вся история</button>
+                    }
+                    @if(isHistoryActive){
+                       <div class="order-status-history-list" >
+                        <div class="close" (click)="changeIsHistoryActive()">Закрыть</div>
+                        @for(orderSH of orderStatusHistoryShort; track orderSH){
+                            <span class="order-status-short">{{orderSH.status}}</span>
+                            <span class="order-status-change-data-short">{{orderSH.dateOfChange}}</span>
+                            <span class="order-status-comment-short">{{orderSH.comment}}</span>
+                        }
+                       </div>
+                    }
                 </div>
                </div>
             </div>
-           }
+            
+                <div class="order-payment-block">
+                    @if(order.orderPrice){
+                        <div class="order-price">Стоимость заказа: {{order.orderPrice}}</div>
+                    }
+                    @if(payment){
+                    <div class="order-payment-amount">Получено за заказ: {{payment.amount}}</div>
+                    <div class="order-payment-last">Предыдущий платеж:
+                        <span class="order-payment-payment">Сумма: {{payment.lastPayment.payment}}</span>
+                        <span class="order-payment-date">Дата: {{payment.lastPayment.paymentDate}}</span>
+                        <span class="order-payment-comment">Комментарий: {{payment.lastPayment.comment}}</span>
+                    </div>
+                    <div class="order-payment-history-list">
+                        <button class="order-payment-history button" (click)="changeIsHistoryPaymentActive()">История платежей</button>
+                        @if(isHistoryPaymentActive){
+                            
+                        }    
+                        
+                    </div>
+
+                    }
+                    <button class="button" (click)="changeIsAddPaymentBlockActive()">Добавить оплату</button>
+                    @if(isAddPaymentBlockActive){ 
+                        <form class="payment-form" [formGroup]="paymentForm">
+                            <input
+                            type="number"
+                            class="input"
+                            [ngStyle]="{
+                              borderColor: 
+                              paymentForm.get('amount')?.invalid &&
+                                (paymentForm.get('amount')?.dirty ||
+                                paymentForm.get('amount')?.touched)
+                                  ? 'red'
+                                  : ''
+                            }"
+                            placeholder="Сумма платежа"
+                            formControlName="amount"
+                          />
+                          <input type="text"
+                           class="input input-comment"
+                           placeholder="Комментарий"
+                           formControlName="comment"
+                           >
+                           <button class="button" (click)="addPayment()">Добавить оплату</button>
+                        </form>
+
+                    }
+                  
+                </div>
+               
+        }
+
+   
         </div>
-    
     </div>
 </section>

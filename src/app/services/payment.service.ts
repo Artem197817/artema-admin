@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { OrderPayment } from '../types/order.type';
+import { OrderPayment, Payment } from '../types/order.type';
 import {environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -15,5 +15,9 @@ export class PaymentService {
 
   public getPaymentByOrderId(orderId: number): Observable<OrderPayment>{
     return this.http.get<OrderPayment>(this.url +`/${orderId}`);
+  }
+
+  public savePayment(payment: Payment) {
+    return this.http.post(this.url, payment, { responseType: 'text' });
   }
 }
