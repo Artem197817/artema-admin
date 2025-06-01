@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Customer } from '../../types/customer.type';
-import { Order, OrderPayment, OrderStatus, Payment } from '../../types/order.type';
+import { Order, OrderPayment, OrderStatus } from '../../types/order.type';
 import { OrderService } from '../../services/order.service';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CustomerService } from '../../services/customer.service';
@@ -51,15 +51,17 @@ export class OrderComponent implements OnInit {
       .subscribe(params => {
         this.orderService.getOrderById(params['orderId'])
           .subscribe((data: Order) => {
+
             this.order = data;
+            console.log(this.order)
             if (this.order && this.order.customerId) {
               this.customerService.getCustomerById(this.order.customerId)
                 .subscribe((customer: Customer) => {
                   this.customer = customer;
                 })
             }
-            if (this.order) {
-              this.paymentService.getPaymentByOrderId(this.order.id)
+            if (this.order && this.order.orderId) {
+              this.paymentService.getPaymentByOrderId(this.order.orderId)
                 .subscribe((payment: OrderPayment) => {
                   this.payment = payment;
                 })
@@ -99,12 +101,12 @@ export class OrderComponent implements OnInit {
         payment: this.paymentForm.get('amount')?.value,
         paymentDate: formattedDate,
         comment: comment,
-        orderId: this.order?.id,
+        orderId: this.order?.orderId,
       }
       this.paymentService.savePayment(payment)
       .subscribe({
         next: (response) => {
-          console.log(response); 
+          console.log(response);
           this.paymentForm.reset();
           this.changeIsAddPaymentBlockActive();
         },

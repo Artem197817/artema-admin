@@ -10,6 +10,7 @@ export const routes: Routes = [
     children: [
       {path: '', component: MainComponent},
       {path: 'order/:orderId', loadComponent: () => import('./shared').then(m => m.OrderComponent)},
+      {path: 'orders', loadComponent: () => import('./shared').then(m => m.OrdersComponent)},
     ]},
   {
     path: 'login',

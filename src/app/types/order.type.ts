@@ -34,7 +34,7 @@ export interface OrderStatus {
 
   // Order Interface
   export interface Order {
-    id: number;
+    orderId: number;
     customerId: number;
     orderName?: string;
     orderPrice?: string;
