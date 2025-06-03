@@ -10,11 +10,11 @@ import { filter, map, mergeMap } from 'rxjs';
   styleUrl: './app.component.scss'
 })
 
- 
+
   export class AppComponent implements OnInit {
     title = 'artema-admin';
     constructor(private router: Router, private activatedRoute: ActivatedRoute) {}
-  
+
     ngOnInit() {
       this.router.events
         .pipe(
@@ -31,8 +31,7 @@ import { filter, map, mergeMap } from 'rxjs';
         .subscribe(data => {
           if (data['backgroundImage']) {
             document.body.style.backgroundImage = `url('${data['backgroundImage']}')`;
-            document.body.style.backgroundSize = 'cover';
-            document.body.style.backgroundPosition = 'center';
+
           } else {
             document.body.style.backgroundImage = 'none';
           }

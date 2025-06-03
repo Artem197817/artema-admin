@@ -1,0 +1,53 @@
+@use '../../../../assets/styles/variables' as *;
+
+.order-card {
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  box-sizing: border-box;
+  width: 290px;
+  border: 1px solid $font-color;
+  border-radius: 24px;
+  height: 480px;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  margin-right: 24px;
+
+  .order-status{
+    text-align: right;
+    text-transform: lowercase;
+    margin-bottom: 12px;
+  }
+  .order-card-customer{
+
+    .order-card-customer-title{
+      margin-bottom: 12px;
+    }
+    .customer-full-name{
+      margin-bottom: 12px;
+    }
+    .customer-phone{
+      margin-bottom: 12px;
+    }
+    .customer-email{
+      margin-bottom: 12px;
+    }
+  }
+  .order-order{
+    .order-order-title{
+      margin-bottom: 12px;
+    }
+    .order-name{
+      margin-bottom: 12px;
+    }
+    .order-description{
+      margin-bottom: 12px;
+      border: 1px solid $font-color-06;
+      padding: 6px;
+      max-width: 278px;
+      font-size: 14px;
+
+    }
+
+  }
+}

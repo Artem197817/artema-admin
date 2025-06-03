@@ -1,0 +1,15 @@
+@use "../../../assets/styles/variables" as *;
+
+.main-order{
+  margin-bottom: 48px;
+  .main-order-title{
+    margin-bottom: 24px;
+  }
+  .main-order-card{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+  }
+}

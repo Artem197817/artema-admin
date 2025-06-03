@@ -1,0 +1,78 @@
+@use "fonts" as *;
+@use "variables" as *;
+
+
+body{
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  //background-repeat: no-repeat;
+  background-size: cover;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 400;
+  color:  $font-color;
+  background-color: $background-color;
+
+}
+
+.title-h2{
+  font-family: Days, sans-serif;
+  font-size: 36px;
+}
+.title-h3{
+  font-family: Days, sans-serif;
+  font-size: 30px;
+}
+.title-h4{
+  font-family: Days, sans-serif;
+  font-size: 24px;
+}
+.title-h5{
+  font-family: Days, sans-serif;
+  font-size: 18px;
+}
+
+.button {
+  border-radius: 30px;
+  padding-right: 15px;
+  padding-left: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  height: 36px;
+  cursor: pointer;
+  background: $font-color;
+  font-family: Nunito, sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  text-align: center;
+  color: $background-color;
+  text-decoration: none;
+  border: 1px solid $font-color;
+
+  &.button-mini{
+    height: 24px;
+    font-size: 14px;
+  }
+}
+
+input{
+  width: 360px;
+  height: 48px;
+  border: 1px solid $font-color;
+  outline: none;
+  box-sizing: border-box;
+  border-radius: 20px;
+  display: flex;
+  font-size: 18px;
+  padding: 0 12px;
+  background-color: $background-color;
+  font-family: Nunito, sans-serif;
+  margin-bottom: 12px;
+  color: $font-color;
+  &::placeholder{
+    color: $font-color-08;
+  }
+}

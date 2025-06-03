@@ -10,7 +10,13 @@ export class AuthService {
   private loggedInSubject = new BehaviorSubject<boolean>(false);
   private authHeader: string | null = null;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    const savedAuthHeader = localStorage.getItem('authHeader');
+    if (savedAuthHeader) {
+      this.authHeader = savedAuthHeader;
+      this.loggedInSubject.next(true);
+    }
+  }
 
   isLoggedIn$(): Observable<boolean> {
     return this.loggedInSubject.asObservable();
@@ -33,11 +39,13 @@ export class AuthService {
       tap(() => {
         this.authHeader = headers.get('Authorization')!;
         this.loggedInSubject.next(true);
+        localStorage.setItem('authHeader', this.authHeader);
       }),
       map(() => true),
       catchError(() => {
         this.authHeader = null;
         this.loggedInSubject.next(false);
+        localStorage.removeItem('authHeader');
         return of(false);
       })
     );
@@ -45,7 +53,8 @@ export class AuthService {
 
   logout(): void {
     this.authHeader = null;
-    this.loggedInSubject.next(false); // исправлено
+    this.loggedInSubject.next(false);
+    localStorage.removeItem('authHeader'); // исправлено
   }
 
 }

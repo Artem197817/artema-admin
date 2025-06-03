@@ -1,9 +1,9 @@
 @if (order) {
 
 <div class="order-card">
-  <div class="order-status title-h3">{{ order.orderStatus }}</div>
+  <div class="order-status title-h4">{{ order.orderStatus }}</div>
   <div class="order-card-customer">
-    <div class="order-card-customer-title title-h3">Заказчик</div>
+    <div class="order-card-customer-title title-h5">Заказчик</div>
     <div class="customer-full-name">
       <span class="customer-name">Имя: {{ order.customerName }}</span>
       @if (order.customerLastName) {
@@ -14,13 +14,14 @@
     <div class="customer-email">e-mail {{ order.customerEmail }}</div>
   </div>
   <div class="order-order">
+    <div class="order-order-title title-h5 ">Заказ</div>
     @if (order.orderName){
-    <div class="order-name title-h4"></div>
+    <div class="order-name ">Наименование: {{order.orderName}}</div>
     }
     @if (order.orderDescription){
-      <div class="order-description">{{order.orderDescription | truncateText:250 }}</div>
+      <div class="order-description">Описание; {{order.orderDescription | truncateText:250 }}</div>
     }
   </div>
-  <a [routerLink]="'/order/' + order.orderId " class="button product-card-detail">Подробнее</a>
+  <a [routerLink]="'/order/' + order.orderId " class="button order-card-detail">Подробнее</a>
 </div>
 }

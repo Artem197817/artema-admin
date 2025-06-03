@@ -30,13 +30,13 @@
            @if(order){
             <div class="order-block">
                 @if(order.orderName){
-                    <div class="order-title title-h3">{{order.orderName}}</div>
+                    <div class="order-title title-h4">{{order.orderName}}</div>
                 }
                 @if(!order.orderName){
-                    <div class="order-title title-h3">Просто заказ</div> 
+                    <div class="order-title title-h5">Просто заказ</div>
                 }
                <div class="order-description">
-                <div class="order-description-title title-h4">Описание:</div>
+                <div class="order-description-title title-h5">Описание:</div>
                 @if(order.orderDescription){
                     <div class="order-description-text">{{order.orderDescription}}</div>
                 }
@@ -46,7 +46,7 @@
                 <div class="order-status-change-data">Дата изменения: {{order.orderStatus.dateOfChange}}</div>
                 <div class="order-status-comment">Комментарий: {{order.orderStatus.comment}}</div>
                 <div class="order-status-history">
-                    <div class="order-status-history-title title-h4">История заказа</div>
+                    <div class="order-status-history-title title-h5">История заказа</div>
                     @for(orderSH of orderStatusHistoryShort; track orderSH){
                         <span class="order-status-short">{{orderSH.status}}</span>
                         <span class="order-status-change-data-short">{{orderSH.dateOfChange}}</span>
@@ -68,7 +68,7 @@
                 </div>
                </div>
             </div>
-            
+
                 <div class="order-payment-block">
                     @if(order.orderPrice){
                         <div class="order-price">Стоимость заказа: {{order.orderPrice}}</div>
@@ -84,19 +84,19 @@
                         <button class="order-payment-history button" (click)="changeIsHistoryPaymentActive()">История платежей</button>
                         @if(isHistoryPaymentActive){
 
-                        }    
-                        
+                        }
+
                     </div>
 
                     }
                     <button class="button" (click)="changeIsAddPaymentBlockActive()">Добавить оплату</button>
-                    @if(isAddPaymentBlockActive){ 
+                    @if(isAddPaymentBlockActive){
                         <form class="payment-form" [formGroup]="paymentForm">
                             <input
                             type="number"
                             class="input"
                             [ngStyle]="{
-                              borderColor: 
+                              borderColor:
                               paymentForm.get('amount')?.invalid &&
                                 (paymentForm.get('amount')?.dirty ||
                                 paymentForm.get('amount')?.touched)
@@ -115,12 +115,12 @@
                         </form>
 
                     }
-                  
+
                 </div>
-               
+
         }
 
-   
+
         </div>
     </div>
 </section>

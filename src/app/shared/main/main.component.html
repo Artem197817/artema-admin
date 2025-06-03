@@ -1,19 +1,23 @@
 <section class="main" xmlns="http://www.w3.org/1999/html">
   <div class="main-order">
     <div class="main-order-title title-h2">Новые заказы</div>
-    @if (ordersNew && ordersNew.length > 0) {
-      @for (order of ordersNew; track order.orderId) {
-        <order-card [order]="order"></order-card>
-      }
-    }
+   <div class="main-order-card">
+     @if (ordersNew && ordersNew.length > 0) {
+       @for (order of ordersNew; track order.orderId) {
+         <order-card [order]="order"></order-card>
+       }
+     }
+   </div>
   </div>
 
   <div class="main-order">
     <div class="main-order-title title-h2">Заказы в работе</div>
-    @if (ordersInProgress && ordersInProgress.length > 0) {
-      @for (order of ordersInProgress; track order.orderId) {
-        <order-card [order]="order"></order-card>
+    <div class="main-order-card">
+      @if (ordersInProgress && ordersInProgress.length > 0) {
+        @for (order of ordersInProgress; track order.orderId) {
+          <order-card [order]="order"></order-card>
+        }
       }
-    }
-  </div>
+    </div>
+     </div>
 </section>

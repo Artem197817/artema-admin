@@ -17,14 +17,17 @@ export const routes: Routes = [
       {
         path: 'order/:orderId',
         loadComponent: () => import('./shared').then(m => m.OrderComponent),
-        data: { backgroundImage: 'assets/images/body-bg/order-bg.png' }
+        data: { backgroundImage: 'assets/images/body-bg/order-bg.png'}
       },
-      { path: 'orders', loadComponent: () => import('./shared').then(m => m.OrdersComponent) },
+      { path: 'orders',
+        loadComponent: () => import('./shared').then(m => m.OrdersComponent)
+      },
     ]
   },
   {
     path: 'login',
-    loadComponent: () => import('./shared').then(m => m.LoginComponent)
+    loadComponent: () => import('./shared').then(m => m.LoginComponent),
+    data: { backgroundImage: 'assets/images/body-bg/login-bg.png'}
   },
   { path: '**', redirectTo: '' }
 ];
