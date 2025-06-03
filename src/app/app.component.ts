@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { filter, map, mergeMap } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -8,6 +9,34 @@ import { RouterOutlet } from '@angular/router';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent {
-  title = 'artema-admin';
-}
+
+ 
+  export class AppComponent implements OnInit {
+    title = 'artema-admin';
+    constructor(private router: Router, private activatedRoute: ActivatedRoute) {}
+  
+    ngOnInit() {
+      this.router.events
+        .pipe(
+          filter(event => event instanceof NavigationEnd),
+          map(() => {
+            let route = this.activatedRoute.firstChild;
+            while (route?.firstChild) {
+              route = route.firstChild;
+            }
+            return route;
+          }),
+          mergeMap(route => route?.data ?? [])
+        )
+        .subscribe(data => {
+          if (data['backgroundImage']) {
+            document.body.style.backgroundImage = `url('${data['backgroundImage']}')`;
+            document.body.style.backgroundSize = 'cover';
+            document.body.style.backgroundPosition = 'center';
+          } else {
+            document.body.style.backgroundImage = 'none';
+          }
+        });
+    }
+  }
+

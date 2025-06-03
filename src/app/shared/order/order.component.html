@@ -58,10 +58,10 @@
                     @if(isHistoryActive){
                        <div class="order-status-history-list" >
                         <div class="close" (click)="changeIsHistoryActive()">Закрыть</div>
-                        @for(orderSH of orderStatusHistoryShort; track orderSH){
-                            <span class="order-status-short">{{orderSH.status}}</span>
-                            <span class="order-status-change-data-short">{{orderSH.dateOfChange}}</span>
-                            <span class="order-status-comment-short">{{orderSH.comment}}</span>
+                        @for(orderHL of order.orderHistoryList; track orderHL){
+                            <span class="order-status-short">{{orderHL.status}}</span>
+                            <span class="order-status-change-data-short">{{orderHL.dateOfChange}}</span>
+                            <span class="order-status-comment-short">{{orderHL.comment}}</span>
                         }
                        </div>
                     }
@@ -83,7 +83,7 @@
                     <div class="order-payment-history-list">
                         <button class="order-payment-history button" (click)="changeIsHistoryPaymentActive()">История платежей</button>
                         @if(isHistoryPaymentActive){
-                            
+
                         }    
                         
                     </div>

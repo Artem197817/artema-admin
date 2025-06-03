@@ -1,17 +1,27 @@
 import { Routes } from '@angular/router';
-import {LayoutComponent} from './shared/layout/layout.component';
-import {MainComponent} from './shared/main/main.component';
-import {authGuard} from './core/auth/auth.guard';
+import { LayoutComponent } from './shared/layout/layout.component';
+import { MainComponent } from './shared/main/main.component';
+import { authGuard } from './core/auth/auth.guard';
 
 export const routes: Routes = [
-  {path: '',
+  {
+    path: '',
     component: LayoutComponent,
     canActivateChild: [authGuard],
     children: [
-      {path: '', component: MainComponent},
-      {path: 'order/:orderId', loadComponent: () => import('./shared').then(m => m.OrderComponent)},
-      {path: 'orders', loadComponent: () => import('./shared').then(m => m.OrdersComponent)},
-    ]},
+      {
+        path: '',
+        component: MainComponent,
+        data: { backgroundImage: 'assets/images/body-bg/main-bg.png' }
+      },
+      {
+        path: 'order/:orderId',
+        loadComponent: () => import('./shared').then(m => m.OrderComponent),
+        data: { backgroundImage: 'assets/images/body-bg/order-bg.png' }
+      },
+      { path: 'orders', loadComponent: () => import('./shared').then(m => m.OrdersComponent) },
+    ]
+  },
   {
     path: 'login',
     loadComponent: () => import('./shared').then(m => m.LoginComponent)
