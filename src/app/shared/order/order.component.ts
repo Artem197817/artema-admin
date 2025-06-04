@@ -64,6 +64,7 @@ export class OrderComponent implements OnInit {
               this.paymentService.getPaymentByOrderId(this.order.orderId)
                 .subscribe((payment: OrderPayment) => {
                   this.payment = payment;
+                  console.log(this.payment);
                 })
             }
 
@@ -89,7 +90,7 @@ export class OrderComponent implements OnInit {
   protected changeIsHistoryPaymentActive() {
     this.isHistoryPaymentActive = !this.isHistoryPaymentActive;
   }
-  protected addPayment() {
+  protected addPayment(orderId: number) {
     if (this.paymentForm.valid) {
       const today = new Date();
       const day = String(today.getDate()).padStart(2, '0');

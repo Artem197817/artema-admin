@@ -46,6 +46,7 @@
                 <div class="order-status-change-data">Дата изменения: {{order.orderStatus.dateOfChange}}</div>
                 <div class="order-status-comment">Комментарий: {{order.orderStatus.comment}}</div>
                 <div class="order-status-history">
+
                     <div class="order-status-history-title title-h5">История заказа</div>
                     @for(orderSH of orderStatusHistoryShort; track orderSH){
                         <span class="order-status-short">{{orderSH.status}}</span>
@@ -73,7 +74,7 @@
                     @if(order.orderPrice){
                         <div class="order-price">Стоимость заказа: {{order.orderPrice}}</div>
                     }
-                    @if(payment){
+                    @if(payment && payment.lastPayment){
                     <div class="order-payment-amount">Получено за заказ: {{payment.amount}}</div>
                     <div class="order-payment-last">Предыдущий платеж:
                         <span class="order-payment-payment">Сумма: {{payment.lastPayment.payment}}</span>

@@ -12,7 +12,7 @@ export const routes: Routes = [
       {
         path: '',
         component: MainComponent,
-        data: { backgroundImage: 'assets/images/body-bg/main-bg.png' }
+        data: { backgroundImage: 'assets/images/body-bg/main-bg3.png' }
       },
       {
         path: 'order/:orderId',
@@ -20,7 +20,8 @@ export const routes: Routes = [
         data: { backgroundImage: 'assets/images/body-bg/order-bg.png'}
       },
       { path: 'orders',
-        loadComponent: () => import('./shared').then(m => m.OrdersComponent)
+        loadComponent: () => import('./shared').then(m => m.OrdersComponent),
+        data: { backgroundImage: 'assets/images/body-bg/orders-bg2.png'}
       },
     ]
   },
