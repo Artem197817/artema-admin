@@ -22,12 +22,12 @@ export const routes: Routes = [
       {
         path: 'create-order',
         loadComponent: () => import('./shared').then(m => m.CreateOrderComponent),
-        data: { backgroundImage: 'assets/images/body-bg/order-bg.png'}
+        data: { backgroundImage: 'assets/images/body-bg/order-bg1.png'}
       },
       {
         path: 'create-order/:orderId',
         loadComponent: () => import('./shared').then(m => m.CreateOrderComponent),
-        data: { backgroundImage: 'assets/images/body-bg/order-bg.png'}
+        data: { backgroundImage: 'assets/images/body-bg/order-bg1.png'}
       },
       { path: 'orders',
         loadComponent: () => import('./shared').then(m => m.OrdersComponent),

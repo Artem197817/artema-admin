@@ -8,6 +8,7 @@ import { PaymentService } from '../../services/payment.service';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {TruncateTextPipe} from '../../utils/truncate-text.pipe';
 
 @Component({
   selector: 'app-order',
@@ -17,6 +18,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
     CommonModule,
     ReactiveFormsModule,
     RouterLink,
+    TruncateTextPipe,
   ],
   templateUrl: './order.component.html',
   styleUrl: './order.component.scss'
@@ -54,6 +56,15 @@ export class OrderComponent implements OnInit {
 
             this.order = data;
             console.log(this.order)
+            console.log(this.order?.orderStatusHistory)
+            if (this.order && this.order.orderStatusHistory) {
+              if (this.order.orderStatusHistory.length <= 3) {
+                this.orderStatusHistoryShort = this.order.orderStatusHistory;
+              } else {
+                this.orderStatusHistoryShort = this.order.orderStatusHistory.slice(-3);
+              }
+            }
+
             if (this.order && this.order.customerId) {
               this.customerService.getCustomerById(this.order.customerId)
                 .subscribe((customer: Customer) => {
@@ -67,15 +78,7 @@ export class OrderComponent implements OnInit {
                   console.log(this.payment);
                 })
             }
-
           })
-        if (this.order && this.order.orderHistoryList) {
-          if (this.order.orderHistoryList.length <= 3) {
-            this.orderStatusHistoryShort = this.order.orderHistoryList;
-          } else {
-            this.orderStatusHistoryShort = this.order.orderHistoryList.slice(-3);
-          }
-        }
       })
   }
 

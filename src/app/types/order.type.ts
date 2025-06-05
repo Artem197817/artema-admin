@@ -40,6 +40,6 @@ export interface OrderStatus {
     orderPrice?: string;
     orderDescription?: string;
     orderStatus: OrderStatus;
-    orderHistoryList?: OrderStatus[];
+    orderStatusHistory?: OrderStatus[];
     orderFiles?: OrderFile[];
   }

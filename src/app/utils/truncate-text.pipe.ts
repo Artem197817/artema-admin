@@ -5,7 +5,7 @@ import {Pipe, PipeTransform} from '@angular/core';
   name: 'truncateText'
 })
 export class TruncateTextPipe implements PipeTransform {
-  transform(value: string, maxLength: number): string {
+  transform(value: string | undefined, maxLength: number): string {
     const ellipsis = '…';
     if (!value) return '';
     if (value.length <= maxLength) return value;

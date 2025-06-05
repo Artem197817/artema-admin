@@ -1,8 +1,10 @@
 <section class="order">
     <div class="second-container">
+      <div class="order-title title-h2">Оаисание заказа</div>
         <div class="order-detail">
             @if(customer){
                 <div class="order-customer-block">
+                  <div class="order-customer-title title-h3">Заказчик</div>
                     <div class="order-customer-name">
                         <div class="order-customer-name-title title-h5">Имя:</div>
                         <span class="name">{{customer.name}}</span>
@@ -29,6 +31,7 @@
               }
            @if(order && order.orderId){
             <div class="order-block">
+              <div class="order-status title-h4">{{order.orderStatus.status}}</div>
                 @if(order.orderName){
                     <div class="order-title title-h4">{{order.orderName}}</div>
                 }
@@ -42,27 +45,27 @@
                 }
                </div>
                <div class="order-status-block">
-                <div class="order-status">Статус: {{order.orderStatus.status}}</div>
-                <div class="order-status-change-data">Дата изменения: {{order.orderStatus.dateOfChange}}</div>
-                <div class="order-status-comment">Комментарий: {{order.orderStatus.comment}}</div>
+
+
                 <div class="order-status-history">
 
                     <div class="order-status-history-title title-h5">История заказа</div>
+
                     @for(orderSH of orderStatusHistoryShort; track orderSH){
-                        <span class="order-status-short">{{orderSH.status}}</span>
-                        <span class="order-status-change-data-short">{{orderSH.dateOfChange}}</span>
-                        <span class="order-status-comment-short">{{orderSH.comment}}</span>
+                        <span class="order-status-short">Статус: {{orderSH.status}}</span>
+                        <span class="order-status-change-data-short">Дата изменения: {{orderSH.dateOfChange}}</span>
+                        <span class="order-status-comment-short">Комментарий: {{orderSH.comment | truncateText: 75}}</span>
                     }
-                    @if(order && order.orderHistoryList && order.orderHistoryList.length > 3){
+                    @if(order && order.orderStatusHistory && order.orderStatusHistory.length > 3){
                      <button class="button button-mini" (click)="changeIsHistoryActive()">Вся история</button>
                     }
                     @if(isHistoryActive){
                        <div class="order-status-history-list" >
                         <div class="close" (click)="changeIsHistoryActive()">Закрыть</div>
-                        @for(orderHL of order.orderHistoryList; track orderHL){
-                            <span class="order-status-short">{{orderHL.status}}</span>
-                            <span class="order-status-change-data-short">{{orderHL.dateOfChange}}</span>
-                            <span class="order-status-comment-short">{{orderHL.comment}}</span>
+                        @for(orderHL of order.orderStatusHistory; track orderHL){
+                            <span class="order-status-short">Статус: {{orderHL.status}}</span>
+                            <span class="order-status-change-data-short">Дата изменения: {{orderHL.dateOfChange}}</span>
+                            <span class="order-status-comment-short">Комментарий: {{orderHL.comment | truncateText: 75}}</span>
                         }
                        </div>
                     }
