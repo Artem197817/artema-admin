@@ -7,20 +7,31 @@ export const routes: Routes = [
   {
     path: '',
     component: LayoutComponent,
-    canActivateChild: [authGuard],
+  //  canActivateChild: [authGuard],
     children: [
       {
         path: '',
         component: MainComponent,
-        data: { backgroundImage: 'assets/images/body-bg/main-bg.png' }
+        data: { backgroundImage: 'assets/images/body-bg/main-bg3.png' }
       },
       {
         path: 'order/:orderId',
         loadComponent: () => import('./shared').then(m => m.OrderComponent),
         data: { backgroundImage: 'assets/images/body-bg/order-bg.png'}
       },
+      {
+        path: 'create-order',
+        loadComponent: () => import('./shared').then(m => m.CreateOrderComponent),
+        data: { backgroundImage: 'assets/images/body-bg/order-bg.png'}
+      },
+      {
+        path: 'create-order/:orderId',
+        loadComponent: () => import('./shared').then(m => m.CreateOrderComponent),
+        data: { backgroundImage: 'assets/images/body-bg/order-bg.png'}
+      },
       { path: 'orders',
-        loadComponent: () => import('./shared').then(m => m.OrdersComponent)
+        loadComponent: () => import('./shared').then(m => m.OrdersComponent),
+        data: { backgroundImage: 'assets/images/body-bg/orders-bg.png'}
       },
     ]
   },
