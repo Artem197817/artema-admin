@@ -1,11 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-orders',
-  standalone: false,
+  standalone: true,
   templateUrl: './orders.component.html',
   styleUrl: './orders.component.scss'
 })
-export class OrdersComponent {
+export class OrdersComponent implements OnInit {
 
+ngOnInit(): void {
+  
+}
 }

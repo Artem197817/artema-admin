@@ -1,0 +1,40 @@
+<section class="create-order">
+  @if(order){
+  <div class="create-order-title title-h2">Редактировать заказ</div>
+  } @if(!order){
+  <div class="create-order-title title-h2">Создать заказ</div>
+  }
+  <div class="order-form" [formGroup]="createOrderForm">
+    <div class="order-form-customer">
+      <div class="order-form-customer-title title-h5">Данные заказчика</div>
+      <div class="order-form-customer-name">
+        <input
+          type="text"
+          class="input"
+          [ngStyle]="{
+            borderColor:
+              createOrderForm.get('name')?.invalid &&
+              (createOrderForm.get('name')?.dirty ||
+                createOrderForm.get('name')?.touched)
+                ? 'red'
+                : ''
+          }"
+          placeholder="Имя"
+          formControlName="name"
+        />
+        <input
+          type="text"
+          class="input"
+          placeholder="Фамилия"
+          formControlName="lastName"
+        />
+        <input
+          type="text"
+          class="input"
+          placeholder="Отчество"
+          formControlName="fatherName"
+        />
+      </div>
+    </div>
+  </div>
+</section>

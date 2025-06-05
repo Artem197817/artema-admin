@@ -85,7 +85,7 @@
                         <button class="order-payment-history button" (click)="changeIsHistoryPaymentActive()">История платежей</button>
                         @if(isHistoryPaymentActive){
                          <div class="history-payment-list" (click)="changeIsHistoryPaymentActive()">
-                           @for (historyPayment of payment.listHistoryPayment){
+                           @for (historyPayment of payment.listHistoryPayment; track historyPayment){
                              <span class="order-payment-payment">Сумма: {{historyPayment.payment}}</span>
                              <span class="order-payment-date">Дата: {{historyPayment.paymentDate}}</span>
                              <span class="order-payment-comment">Комментарий: {{historyPayment.comment}}</span>

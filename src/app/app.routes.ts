@@ -7,7 +7,7 @@ export const routes: Routes = [
   {
     path: '',
     component: LayoutComponent,
-    canActivateChild: [authGuard],
+  //  canActivateChild: [authGuard],
     children: [
       {
         path: '',
@@ -17,6 +17,16 @@ export const routes: Routes = [
       {
         path: 'order/:orderId',
         loadComponent: () => import('./shared').then(m => m.OrderComponent),
+        data: { backgroundImage: 'assets/images/body-bg/order-bg.png'}
+      },
+      {
+        path: 'create-order',
+        loadComponent: () => import('./shared').then(m => m.CreateOrderComponent),
+        data: { backgroundImage: 'assets/images/body-bg/order-bg.png'}
+      },
+      {
+        path: 'create-order/:orderId',
+        loadComponent: () => import('./shared').then(m => m.CreateOrderComponent),
         data: { backgroundImage: 'assets/images/body-bg/order-bg.png'}
       },
       { path: 'orders',
