@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-create-order',
+  standalone: true,
   imports: [
     ReactiveFormsModule,
     CommonModule,
@@ -42,8 +43,8 @@ export class CreateOrderComponent implements OnInit {
                     comment: [''],
                   }
 
-                
-            
+
+
                 });
               }
 
