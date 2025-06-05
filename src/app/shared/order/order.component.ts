@@ -90,8 +90,8 @@ export class OrderComponent implements OnInit {
   protected changeIsHistoryPaymentActive() {
     this.isHistoryPaymentActive = !this.isHistoryPaymentActive;
   }
-  protected addPayment(orderId: number) {
-    if (this.paymentForm.valid) {
+  protected addPayment(orderId: number | undefined) {
+    if (this.paymentForm.valid && orderId) {
       const today = new Date();
       const day = String(today.getDate()).padStart(2, '0');
       const month = String(today.getMonth() + 1).padStart(2, '0');

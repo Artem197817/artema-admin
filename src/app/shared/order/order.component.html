@@ -27,7 +27,7 @@
                 </div>
                 <a [routerLink]="['/edit-customer', customer.id]" class="button">Редактировать</a>
               }
-           @if(order){
+           @if(order && order.orderId){
             <div class="order-block">
                 @if(order.orderName){
                     <div class="order-title title-h4">{{order.orderName}}</div>
@@ -84,7 +84,14 @@
                     <div class="order-payment-history-list">
                         <button class="order-payment-history button" (click)="changeIsHistoryPaymentActive()">История платежей</button>
                         @if(isHistoryPaymentActive){
+                         <div class="history-payment-list" (click)="changeIsHistoryPaymentActive()">
+                           @for (historyPayment of payment.listHistoryPayment){
+                             <span class="order-payment-payment">Сумма: {{historyPayment.payment}}</span>
+                             <span class="order-payment-date">Дата: {{historyPayment.paymentDate}}</span>
+                             <span class="order-payment-comment">Комментарий: {{historyPayment.comment}}</span>
 
+                           }
+                         </div>
                         }
 
                     </div>
@@ -112,7 +119,7 @@
                            placeholder="Комментарий"
                            formControlName="comment"
                            >
-                           <button class="button" (click)="addPayment()">Добавить оплату</button>
+                           <button class="button" (click)="addPayment(order?.orderId)">Добавить оплату</button>
                         </form>
 
                     }
