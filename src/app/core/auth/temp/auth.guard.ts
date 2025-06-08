@@ -8,8 +8,7 @@ export const authGuard: CanActivateChildFn = () => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
-    return authService.isLoggedIn().pipe(
-      map(isLoggedIn => isLoggedIn || router.createUrlTree(['/login']))
-    );
-
+  return authService.isLoggedIn$().pipe(
+    map(loggedIn => loggedIn ? true : router.parseUrl('/login'))
+  );
 };

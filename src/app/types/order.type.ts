@@ -9,8 +9,8 @@ export interface OrderStatus {
   // Payment Interface
   export interface Payment {
     payment: number;
-    paymentDate: string;
-    comment: string;
+    paymentData: string;
+    comment?: string;
     orderId?: number;
   }
 

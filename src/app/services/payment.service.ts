@@ -18,6 +18,6 @@ export class PaymentService {
   }
 
   public savePayment(payment: Payment) {
-    return this.http.post(this.url, payment, { responseType: 'text' });
+    return this.http.post(this.url + '/save_payment', payment, { responseType: 'text'});
   }
 }

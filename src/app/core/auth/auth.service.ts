@@ -1,60 +1,76 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { catchError, tap, map } from 'rxjs/operators';
+import {Injectable} from '@angular/core';
+import {BehaviorSubject, map, Observable, throwError} from 'rxjs';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {catchError, tap} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
 
-@Injectable({ providedIn: 'root' })
+interface AuthResponse {
+  token: string;
+  refreshToken?: string; // если используете refresh tokens
+}
+
+@Injectable({
+  providedIn: 'root'
+})
 export class AuthService {
-  private url = environment.api + '/api/user/check';
-  private loggedInSubject = new BehaviorSubject<boolean>(false);
-  private authHeader: string | null = null;
+  private readonly TOKEN_KEY = 'access_token';
+  private readonly REFRESH_TOKEN_KEY = 'refresh_token';
+  private url  = environment.api
+
+  private loggedIn = new BehaviorSubject<boolean>(this.hasToken());
 
   constructor(private http: HttpClient) {
-    const savedAuthHeader = localStorage.getItem('authHeader');
-    if (savedAuthHeader) {
-      this.authHeader = savedAuthHeader;
-      this.loggedInSubject.next(true);
-    }
   }
 
-  isLoggedIn$(): Observable<boolean> {
-    return this.loggedInSubject.asObservable();
-  }
-
-  isLoggedIn(): boolean {
-    return this.loggedInSubject.value;
-  }
-
-  getAuthHeader(): string | null {
-    return this.authHeader;
+  private hasToken(): boolean {
+    return !!localStorage.getItem(this.TOKEN_KEY);
   }
 
   login(username: string, password: string): Observable<boolean> {
-    const headers = new HttpHeaders({
-      Authorization: 'Basic ' + btoa(`${username}:${password}`)
-    });
-
-    return this.http.get('/api/user/check', { headers, responseType: 'text' }).pipe(
-      tap(() => {
-        this.authHeader = headers.get('Authorization')!;
-        this.loggedInSubject.next(true);
-        localStorage.setItem('authHeader', this.authHeader);
+    return this.http.post<AuthResponse>(this.url + 'auth/login', {username, password}).pipe(
+      tap(res => {
+        localStorage.setItem(this.TOKEN_KEY, res.token);
+        if (res.refreshToken) {
+          localStorage.setItem(this.REFRESH_TOKEN_KEY, res.refreshToken);
+        }
+        this.loggedIn.next(true);
       }),
       map(() => true),
-      catchError(() => {
-        this.authHeader = null;
-        this.loggedInSubject.next(false);
-        localStorage.removeItem('authHeader');
-        return of(false);
-      })
+      catchError(this.handleError)
     );
   }
 
-  logout(): void {
-    this.authHeader = null;
-    this.loggedInSubject.next(false);
-    localStorage.removeItem('authHeader'); // исправлено
+  logout() {
+    localStorage.removeItem(this.TOKEN_KEY);
+    localStorage.removeItem(this.REFRESH_TOKEN_KEY);
+    this.loggedIn.next(false);
   }
 
+  isLoggedIn(): Observable<boolean> {
+    return this.loggedIn.asObservable();
+  }
+
+  getToken(): string | null {
+    return localStorage.getItem(this.TOKEN_KEY);
+  }
+
+  // Пример метода для обновления токена (если реализовано на сервере)
+  refreshToken(): Observable<AuthResponse> {
+    const refreshToken = localStorage.getItem(this.REFRESH_TOKEN_KEY);
+    return this.http.post<AuthResponse>('/auth/refresh', {refreshToken}).pipe(
+      tap(res => {
+        localStorage.setItem(this.TOKEN_KEY, res.token);
+        if (res.refreshToken) {
+          localStorage.setItem(this.REFRESH_TOKEN_KEY, res.refreshToken);
+        }
+      }),
+      catchError(this.handleError)
+    );
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    // Обработка ошибок
+    return throwError(() => new Error(error.message || 'Server error'));
+  }
 }
+

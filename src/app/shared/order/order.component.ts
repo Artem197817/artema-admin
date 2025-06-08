@@ -103,10 +103,11 @@ export class OrderComponent implements OnInit {
       const comment = this.paymentForm.get('comment')? this.paymentForm.get('comment')?.value : '';
       let payment = {
         payment: this.paymentForm.get('amount')?.value,
-        paymentDate: formattedDate,
+        paymentData: formattedDate,
         comment: comment,
         orderId: this.order?.orderId,
       }
+      console.log(payment)
       this.paymentService.savePayment(payment)
       .subscribe({
         next: (response) => {
