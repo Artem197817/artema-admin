@@ -124,10 +124,62 @@
       }
 
       .order-payment-block{
-        margin-bottom: 12px;
+        margin-bottom: 36px;
+        box-sizing: border-box;
+        padding: 24px;
+        border-radius: 30px;
+        border: 1px solid $font-color;
+        width: 500px;
+        position: relative;
+
+        .order-block-title{
+          margin-bottom: 12px;
+        }
 
         .order-price{
           margin-bottom: 12px;
+        }
+
+        .order-payment-amount{
+          margin-bottom: 12px;
+        }
+
+        .order-payment-last{
+          margin-bottom: 12px;
+
+          span{
+            margin-right: 6px;
+          }
+        }
+        .order-payment-history-list{
+          margin-bottom: 12px;
+
+          .order-payment-history{
+            margin-bottom: 12px;
+            margin-top: 12px;
+
+            .history-payment-list{
+              position: relative;
+              margin-bottom: 12px;
+              box-sizing: border-box;
+              padding: 24px;
+              border-radius: 10px;
+              border: 1px solid $font-color;
+              width: 452px;
+
+              .close-history{
+                position: absolute;
+                top: 6px;
+                right: 6px;
+              }
+              .history-payment-item{
+                margin-bottom: 6px;
+                span{
+                  margin-right: 6px;
+                }
+              }
+            }
+          }
         }
       }
     }

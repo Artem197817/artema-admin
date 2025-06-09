@@ -94,11 +94,13 @@
               </button>
               @if (isHistoryPaymentActive) {
                 <div class="history-payment-list" (click)="changeIsHistoryPaymentActive()">
+                  <div class="close-history" (click)="changeIsHistoryPaymentActive()">Закрыть</div>
                   @for (historyPayment of payment.listHistoryPayment; track historyPayment) {
+                    <div class="history-payment-item">
                     <span class="order-payment-payment">Сумма: {{ historyPayment.payment }}</span>
                     <span class="order-payment-date">Дата: {{ historyPayment.paymentData }}</span>
-                    <span class="order-payment-comment">Комментарий: {{ historyPayment.comment }}</span>
-
+                    <div class="order-payment-comment">Комментарий: {{ historyPayment.comment }}</div>
+                    </div>
                   }
                 </div>
               }
