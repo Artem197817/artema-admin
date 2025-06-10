@@ -7,7 +7,7 @@
   <div class="order-form" [formGroup]="createOrderForm">
     <div class="order-form-customer">
       <div class="order-form-customer-title title-h5">Данные заказчика</div>
-      <div class="order-form-customer-name">
+
         <input
           type="text"
           class="input"
@@ -34,7 +34,67 @@
           placeholder="Отчество"
           formControlName="fatherName"
         />
-      </div>
+        <input
+        type="text"
+        class="input"
+        [ngStyle]="{
+          borderColor:
+            createOrderForm.get('phone')?.invalid &&
+            (createOrderForm.get('phone')?.dirty ||
+              createOrderForm.get('phone')?.touched)
+              ? 'red'
+              : ''
+        }"
+        placeholder="Телефон"
+        formControlName="phone"
+      />
+ 
+      <input
+      type="text"
+      class="input"
+      [ngStyle]="{
+        borderColor:
+          createOrderForm.get('email')?.invalid &&
+          (createOrderForm.get('email')?.dirty ||
+            createOrderForm.get('email')?.touched)
+            ? 'red'
+            : ''
+      }"
+      placeholder="e-mail"
+      formControlName="email"
+    />
+    <textarea
+    type="text"
+    class="input textarea"
+    placeholder="Комментарий"
+    formControlName="comment"
+    ></textarea>
+
+    </div>
+    <div class="order-form-order">
+        <div class="order-form-order-title title-h4">Информация о заказе</div>
+        <input
+        type="text"
+        class="input"
+        placeholder="Наименование заказа"
+        formControlName="orderName"
+      />
+      <input
+          type="text"
+          class="input"
+          placeholder="Стоимость"
+          formControlName="orderPrice"
+        />
+        <textarea
+        type="text"
+        class="input textarea"
+        placeholder="Описание заказа"
+        formControlName="orderDescription"
+        ></textarea>
+
+    </div>
+    <div class="order-form-file">
+        <input type="file" (change)="onFileSelected($event)">
     </div>
   </div>
 </section>
