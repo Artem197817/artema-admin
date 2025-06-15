@@ -2,32 +2,7 @@
   <div class="second-container">
     <div class="order-title title-h2">Описание заказа</div>
     <div class="order-detail">
-      @if (customer) {
-        <div class="order-customer-block">
-          <div class="order-customer-title title-h3">Заказчик</div>
-          <div class="order-customer-name">
-            <span class="name">Имя: {{ customer.name }}</span>
-            @if (customer.lastName) {
-              <span class="last-name">Фамилия: {{ customer.lastName }}</span>
-            }
-            @if (customer.fatherName) {
-              <span class="father-name">Отчество: {{ customer.fatherName }}</span>
-            }
-          </div>
-          <div class="order-customer-contact-block">
-            <div class="order-customer-contact-title title-h5">Контакты:</div>
-            <div class="order-customer-contact">Телефон: {{ customer.phone }}</div>
-            <div class="order-customer-contact">e-mail: {{ customer.email }}</div>
-          </div>
-          @if (customer.comment) {
-            <div class="order-customer-comment-block">
-              <div class="order-customer-comment-title title-h5">Комментарий</div>
-              <div class="order-customer-comment">{{ customer.comment }}</div>
-            </div>
-          }
-          <a [routerLink]="['/edit-customer', customer.id]" class="button">Редактировать</a>
-        </div>
-      }
+
       @if (order && order.orderId) {
         <div class="order-block">
           <div class="order-title-block">
@@ -56,7 +31,9 @@
               @for (orderSH of orderStatusHistoryShort; track orderSH) {
                 <span class="order-status-short">Статус: {{ orderSH.status }}</span>
                 <span class="order-status-change-data-short">Дата изменения: {{ orderSH.dateOfChange }}</span>
-                <div class="order-status-comment-short">Комментарий: {{ orderSH.comment | truncateText: 75 }}</div>
+                @if (orderSH.comment) {
+                  <div class="order-status-comment-short">Комментарий: {{ orderSH.comment | truncateText: 75 }}</div>
+                }
               }
               @if (order && order.orderStatusHistory && order.orderStatusHistory.length > 3) {
                 <button class="button button-mini" (click)="changeIsHistoryActive()">Вся история</button>
@@ -74,8 +51,47 @@
               }
             </div>
           </div>
+          @if (order && order.orderFiles && order.orderFiles.length > 0) {
+            <div class="order-file">
+              <div class="order-file-title title-h5">Файлы заказа</div>
+              <div class="order-file-items">
+                @for (file of order.orderFiles; track file) {
+                  <div class="order-file-item">
+                    <i class="fas" [ngClass]="getFileIcon(file.fileName)"></i>
+                    <div class="file-name">{{ file.fileName }}</div>
+                    <div class="button button-mini" (click)="downloadFile(file.id, file.fileName)">Скачать</div>
+                  </div>
+                }
+              </div>
+            </div>
+          }
         </div>
-
+        @if (customer) {
+          <div class="order-customer-block">
+            <div class="order-customer-title title-h3">Заказчик</div>
+            <div class="order-customer-name">
+              <span class="name">Имя: {{ customer.name }}</span>
+              @if (customer.lastName) {
+                <span class="last-name">Фамилия: {{ customer.lastName }}</span>
+              }
+              @if (customer.fatherName) {
+                <span class="father-name">Отчество: {{ customer.fatherName }}</span>
+              }
+            </div>
+            <div class="order-customer-contact-block">
+              <div class="order-customer-contact-title title-h5">Контакты:</div>
+              <div class="order-customer-contact">Телефон: {{ customer.phone }}</div>
+              <div class="order-customer-contact">e-mail: {{ customer.email }}</div>
+            </div>
+            @if (customer.comment) {
+              <div class="order-customer-comment-block">
+                <div class="order-customer-comment-title title-h5">Комментарий</div>
+                <div class="order-customer-comment">{{ customer.comment }}</div>
+              </div>
+            }
+            <a [routerLink]="['/edit-customer', customer.id]" class="button">Редактировать</a>
+          </div>
+        }
         <div class="order-payment-block">
           <div class="order-payment-block-title title-h4">Оплата заказа</div>
 
@@ -87,19 +103,23 @@
             <div class="order-payment-last">Предыдущий платеж:
               <span class="order-payment-payment">Сумма: {{ payment.lastPayment.payment }}</span>
               <span class="order-payment-date">Дата: {{ payment.lastPayment.paymentData }}</span>
-              <div class="order-payment-comment">Комментарий: {{ payment.lastPayment.comment }}</div>
+              @if (payment.lastPayment.comment) {
+                <div class="order-payment-comment">Комментарий: {{ payment.lastPayment.comment }}</div>
+              }
             </div>
             <div class="order-payment-history-list">
               <button class="order-payment-history button" (click)="changeIsHistoryPaymentActive()">История платежей
               </button>
               @if (isHistoryPaymentActive) {
                 <div class="history-payment-list" (click)="changeIsHistoryPaymentActive()">
-                  <div class="close-history" (click)="changeIsHistoryPaymentActive()">Закрыть</div>
+                  <div class="close-history" >Закрыть</div>
                   @for (historyPayment of payment.listHistoryPayment; track historyPayment) {
                     <div class="history-payment-item">
-                    <span class="order-payment-payment">Сумма: {{ historyPayment.payment }}</span>
-                    <span class="order-payment-date">Дата: {{ historyPayment.paymentData }}</span>
-                    <div class="order-payment-comment">Комментарий: {{ historyPayment.comment }}</div>
+                      <span class="order-payment-payment">Сумма: {{ historyPayment.payment }}</span>
+                      <span class="order-payment-date">Дата: {{ historyPayment.paymentData }}</span>
+                      @if (historyPayment.comment) {
+                        <div class="order-payment-comment">Комментарий: {{ historyPayment.comment }}</div>
+                      }
                     </div>
                   }
                 </div>
@@ -130,13 +150,13 @@
                      placeholder="Комментарий"
                      formControlName="comment"
               >
-              <button class="button" (click)="addPayment(order.orderId)">Добавить оплату</button>
+              <button class="button" (click)="addPayment(order.orderId)">Сохранить</button>
             </form>
 
           }
 
         </div>
-
+        <div class="button order-edit-button">Редактировать</div>
       }
 
 

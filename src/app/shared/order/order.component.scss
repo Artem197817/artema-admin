@@ -10,10 +10,11 @@
 
     .order-detail {
       .order-customer-block {
+        background: $background-color-08;
         width: 500px;
         box-sizing: border-box;
         padding: 24px;
-        margin-bottom: 24px;
+        margin-bottom: 36px;
         border-radius: 30px;
         border: 1px solid $font-color;
 
@@ -62,6 +63,7 @@
       }
 
       .order-block {
+        background: $background-color-08;
         margin-bottom: 36px;
         box-sizing: border-box;
         padding: 24px;
@@ -95,6 +97,8 @@
         }
 
         .order-status-block {
+          margin-bottom: 12px;
+
           .order-status-history-title {
             margin-bottom: 6px;
           }
@@ -104,7 +108,8 @@
             border: 1px solid $font-color;
             padding: 6px;
             box-sizing: border-box;
-            span{
+
+            span {
               margin-right: 6px;
             }
 
@@ -113,17 +118,50 @@
               margin-bottom: 12px;
               width: 120px;
             }
-            .order-status-history-list{
-              span{
+
+            .order-status-history-list {
+              span {
                 margin-right: 6px;
               }
             }
           }
         }
 
+        .order-file {
+          .order-file-title {
+            margin-bottom: 6px;
+          }
+
+          .order-file-items {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            align-items: center;
+
+            .order-file-item {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              flex-direction: column;
+              border: 1px solid $font-color;
+              padding: 12px;
+              border-radius: 5px;
+
+              .fas {
+                margin-bottom: 6px;
+              }
+
+              .file-name {
+                margin-bottom: 6px;
+              }
+
+            }
+          }
+        }
       }
 
-      .order-payment-block{
+      .order-payment-block {
+        background: $background-color-08;
         margin-bottom: 36px;
         box-sizing: border-box;
         padding: 24px;
@@ -132,55 +170,74 @@
         width: 500px;
         position: relative;
 
-        .order-block-title{
+        .order-block-title {
           margin-bottom: 12px;
         }
 
-        .order-price{
+        .order-price {
           margin-bottom: 12px;
         }
 
-        .order-payment-amount{
+        .order-payment-amount {
           margin-bottom: 12px;
         }
 
-        .order-payment-last{
+        .order-payment-last {
           margin-bottom: 12px;
 
-          span{
+          span {
             margin-right: 6px;
           }
         }
-        .order-payment-history-list{
+
+        .order-payment-history-list {
           margin-bottom: 12px;
 
-          .order-payment-history{
+          .order-payment-history {
             margin-bottom: 12px;
             margin-top: 12px;
+          }
 
-            .history-payment-list{
-              position: relative;
-              margin-bottom: 12px;
-              box-sizing: border-box;
-              padding: 24px;
-              border-radius: 10px;
-              border: 1px solid $font-color;
-              width: 452px;
+          .history-payment-list {
+            position: relative;
+            margin-bottom: 12px;
+            box-sizing: border-box;
+            padding: 24px;
+            border-radius: 10px;
+            border: 1px solid $font-color;
+            width: 452px;
 
-              .close-history{
-                position: absolute;
-                top: 6px;
-                right: 6px;
-              }
-              .history-payment-item{
-                margin-bottom: 6px;
-                span{
-                  margin-right: 6px;
-                }
+            .close-history {
+              position: absolute;
+              top: 6px;
+              right: 12px;
+              cursor: pointer;
+            }
+
+            .history-payment-item {
+              margin-bottom: 6px;
+
+              span {
+                margin-right: 6px;
               }
             }
           }
         }
+        .button{
+          width: 220px;
+
+        }
+        .payment-form{
+          margin-top: 12px;
+          margin-bottom: 12px;
+          padding: 12px;
+          border-radius: 10px;
+          border: 1px solid $font-color;
+        }
+      }
+      .order-edit-button{
+        margin-top: 48px;
+        width: 295px;
       }
     }
   }

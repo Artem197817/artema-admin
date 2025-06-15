@@ -9,6 +9,8 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import {TruncateTextPipe} from '../../utils/truncate-text.pipe';
+import {firstValueFrom} from 'rxjs';
+declare const window: any;
 
 @Component({
   selector: 'app-order',
@@ -71,17 +73,19 @@ export class OrderComponent implements OnInit {
                   this.customer = customer;
                 })
             }
-            if (this.order && this.order.orderId) {
-              this.paymentService.getPaymentByOrderId(this.order.orderId)
-                .subscribe((payment: OrderPayment) => {
-                  this.payment = payment;
-                  console.log(this.payment);
-                })
-            }
+         this.loadPayment();
           })
       })
   }
 
+  private loadPayment (){
+    if (this.order && this.order.orderId) {
+      this.paymentService.getPaymentByOrderId(this.order.orderId)
+        .subscribe((payment: OrderPayment) => {
+          this.payment = payment;
+        })
+    }
+  }
   protected changeIsHistoryActive() {
     this.isHistoryActive = !this.isHistoryActive;
   }
@@ -107,13 +111,12 @@ export class OrderComponent implements OnInit {
         comment: comment,
         orderId: this.order?.orderId,
       }
-      console.log(payment)
       this.paymentService.savePayment(payment)
       .subscribe({
         next: (response) => {
-          console.log(response);
           this.paymentForm.reset();
           this.changeIsAddPaymentBlockActive();
+          this.loadPayment();
         },
         error: (error) => {
           console.error('Ошибка при сохранении платежа', error);
@@ -121,4 +124,48 @@ export class OrderComponent implements OnInit {
       });
     }
   }
+
+  async downloadFile(fileId: number, fileName: string) {
+    try {
+      const blob = await firstValueFrom(this.orderService.downloadFile(fileId));
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = fileName;
+      a.click();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Ошибка при скачивании файла', error);
+    }
+  }
+  getFileIcon(fileName: string): string {
+    const ext = fileName.split('.').pop()?.toLowerCase();
+    switch (ext) {
+      case 'png':
+      case 'jpg':
+      case 'jpeg':
+      case 'gif':
+        return 'fa-file-image'; // иконка картинки
+      case 'pdf':
+        return 'fa-file-pdf';
+      case 'doc':
+      case 'docx':
+        return 'fa-file-word';
+      case 'xls':
+      case 'xlsx':
+        return 'fa-file-excel';
+      case 'zip':
+      case 'rar':
+        return 'fa-file-archive';
+      case 'txt':
+        return 'fa-file-alt';
+      case 'psd':
+        return 'fa-file-image';
+      case 'fig':
+        return 'fa-file';
+      default:
+        return 'fa-file';
+    }
+  }
+
 }

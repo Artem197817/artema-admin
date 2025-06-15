@@ -12,6 +12,7 @@
   justify-content: space-between;
   margin-bottom: 24px;
   margin-right: 24px;
+  background: $background-color-08;
 
   .order-status{
     text-align: right;
@@ -46,6 +47,7 @@
       padding: 6px;
       max-width: 278px;
       font-size: 14px;
+      border-radius: 12px;
 
     }
 

@@ -25,4 +25,8 @@ export class OrderService {
   public getOrdersAll(): Observable<Order>{
     return this.http.get<Order>(this.url +`/`);
   }
+
+  downloadFile(fileId: number): Observable<Blob> {
+    return this.http.get(`${this.url}/files/${fileId}`, { responseType: 'blob' });
+  }
 }
