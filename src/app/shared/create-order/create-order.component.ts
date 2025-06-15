@@ -34,17 +34,20 @@ export class CreateOrderComponent implements OnInit {
                 const phonePattern = /^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$/;
 
                 this.createOrderForm = this.fb.group({
-                  customer: {
+                  customer: this.fb.group({
                     name: ['', [Validators.required]],
                     lastName: [''],
                     fatherName: [''],
                     phone: ['', [Validators.required, Validators.pattern(phonePattern)]],
-                     email: ['', [Validators.required,Validators.email]],
+                    email: ['', [Validators.required, Validators.email]],
                     comment: [''],
-                  }
-
-
-
+                  }),
+                  order: this.fb.group({
+                    orderName: [''],
+                    orderPrice: [''],
+                    orderDescription: [''],
+                  }),
+                  orderFile: [null] // поле для файла
                 });
               }
 
@@ -81,4 +84,108 @@ loadOrder(orderId: string){
 
   })
 }
+onFileSelected(event: Event) {
+  const input = event.target as HTMLInputElement;
+  if (input.files && input.files.length > 0) {
+    const file = input.files[0];
+    this.createOrderForm.patchValue({ orderFile: file });
+    // Если нужно, можно сразу прочитать файл как base64 или отправить на сервер
+  }
 }
+submit() {
+  const formValue = this.createOrderForm.value;
+  const formData = new FormData();
+
+  // Добавляем текстовые поля
+  formData.append('customer', JSON.stringify(formValue.customer));
+  formData.append('order', JSON.stringify(formValue.order));
+
+  // Добавляем файл
+  if (formValue.orderFile) {
+    formData.append('orderFile', formValue.orderFile);
+  }
+
+  // Отправляем formData через HttpClient
+ // this.http.post('/api/orders', formData).subscribe(...);
+}
+
+
+}
+/**Для отправки данных формы и файла с Angular на сервер (Spring Boot), оптимальным решением будет использование DTO с файлом и аннотацией @ModelAttribute или @RequestPart на сервере. Это позволяет принимать как обычные поля, так и файл в одном запросе с типом multipart/form-data.
+
+Пример DTO для Spring Boot
+java
+import org.springframework.web.multipart.MultipartFile;
+
+public class OrderRequestDto {
+    // Данные клиента
+    private String name;
+    private String lastName;
+    private String fatherName;
+    private String phone;
+    private String email;
+    private String comment;
+
+    // Данные заказа
+    private String orderName;
+    private String orderPrice;
+    private String orderDescription;
+
+    // Файл
+    private MultipartFile orderFile;
+
+    // Геттеры и сеттеры
+    // ...
+}
+Поле MultipartFile orderFile позволит принимать файл.
+
+Пример контроллера
+java
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+@RestController
+@RequestMapping("/api/orders")
+public class OrderController {
+
+    @PostMapping(consumes = {"multipart/form-data"})
+    public String createOrder(@ModelAttribute OrderRequestDto orderRequestDto) {
+        // orderRequestDto.getOrderFile() — доступ к файлу
+        // orderRequestDto.getName() и т.д. — доступ к полям формы
+        return "Order created";
+    }
+}
+Используйте @ModelAttribute (или @RequestPart для более сложных случаев).
+
+Если нужно разделить JSON и файл (альтернативный способ)
+Можно отправить JSON как строку и файл как отдельную часть:
+
+java
+@PostMapping(consumes = {"multipart/form-data"})
+public String createOrder(
+    @RequestPart("order") OrderRequestDto orderDto,
+    @RequestPart("orderFile") MultipartFile orderFile) {
+    // ...
+}
+В этом случае на фронте JSON сериализуется в Blob и добавляется в FormData как отдельная часть.
+
+Пример отправки с Angular
+typescript
+const formData = new FormData();
+formData.append('name', this.form.value.customer.name);
+formData.append('lastName', this.form.value.customer.lastName);
+formData.append('fatherName', this.form.value.customer.fatherName);
+formData.append('phone', this.form.value.customer.phone);
+formData.append('email', this.form.value.customer.email);
+formData.append('comment', this.form.value.customer.comment);
+
+formData.append('orderName', this.form.value.order.orderName);
+formData.append('orderPrice', this.form.value.order.orderPrice);
+formData.append('orderDescription', this.form.value.order.orderDescription);
+
+if (this.form.value.orderFile) {
+  formData.append('orderFile', this.form.value.orderFile);
+}
+
+this.http.post('/api/orders', formData).subscribe(...);
+Не указывайте явно Content-Type — браузер сам выставит boundary для multipart/form-data. */
