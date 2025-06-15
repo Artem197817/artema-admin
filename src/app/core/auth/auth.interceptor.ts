@@ -39,10 +39,10 @@ export const authInterceptor: HttpInterceptorFn = (
       return authService.refreshToken().pipe(
         switchMap((res) => {
           isRefreshing = false;
-          refreshTokenSubject.next(res.token);
+          refreshTokenSubject.next(res.accessToken);
           return nextFn(
             request.clone({
-              headers: request.headers.set('Authorization', `Bearer ${res.token}`)
+              headers: request.headers.set('Authorization', `Bearer ${res.accessToken}`)
             })
           );
         }),

@@ -3,9 +3,10 @@ import {BehaviorSubject, map, Observable, throwError} from 'rxjs';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {catchError, tap} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
+import {Router} from '@angular/router';
 
 interface AuthResponse {
-  token: string;
+  accessToken: string;
   refreshToken?: string; // если используете refresh tokens
 }
 
@@ -13,13 +14,14 @@ interface AuthResponse {
   providedIn: 'root'
 })
 export class AuthService {
-  private readonly TOKEN_KEY = 'access_token';
-  private readonly REFRESH_TOKEN_KEY = 'refresh_token';
+  private readonly TOKEN_KEY = 'accessToken';
+  private readonly REFRESH_TOKEN_KEY = 'refreshToken';
   private url  = environment.api
 
   private loggedIn = new BehaviorSubject<boolean>(this.hasToken());
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              private router: Router,) {
   }
 
   private hasToken(): boolean {
@@ -29,7 +31,7 @@ export class AuthService {
   login(username: string, password: string): Observable<boolean> {
     return this.http.post<AuthResponse>(this.url + 'auth/login', {username, password}).pipe(
       tap(res => {
-        localStorage.setItem(this.TOKEN_KEY, res.token);
+        localStorage.setItem(this.TOKEN_KEY, res.accessToken);
         if (res.refreshToken) {
           localStorage.setItem(this.REFRESH_TOKEN_KEY, res.refreshToken);
         }
@@ -44,6 +46,7 @@ export class AuthService {
     localStorage.removeItem(this.TOKEN_KEY);
     localStorage.removeItem(this.REFRESH_TOKEN_KEY);
     this.loggedIn.next(false);
+    this.router.navigate(['login']);
   }
 
   isLoggedIn(): Observable<boolean> {
@@ -59,7 +62,7 @@ export class AuthService {
     const refreshToken = localStorage.getItem(this.REFRESH_TOKEN_KEY);
     return this.http.post<AuthResponse>('/auth/refresh', {refreshToken}).pipe(
       tap(res => {
-        localStorage.setItem(this.TOKEN_KEY, res.token);
+        localStorage.setItem(this.TOKEN_KEY, res.accessToken);
         if (res.refreshToken) {
           localStorage.setItem(this.REFRESH_TOKEN_KEY, res.refreshToken);
         }
