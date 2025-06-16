@@ -1,0 +1,31 @@
+@use "../../../assets/styles/variables" as *;
+
+.input{
+    margin-right: 12px;
+}
+.create-order{
+    .create-order-title{
+        margin-bottom: 24px;
+    }
+    .order-form{
+        .order-form-customer{
+            margin-bottom: 36px;
+            .order-form-customer-title{
+                margin-bottom: 24px;
+            }
+        }
+        .order-form-order{
+            margin-bottom: 36px;
+            .order-form-order-title{
+                margin-bottom: 24px;
+            }
+        }
+        .order-form-file{
+            margin-bottom: 36px;
+            .file{
+                height: 96px;
+            }
+        }
+    }
+    
+}

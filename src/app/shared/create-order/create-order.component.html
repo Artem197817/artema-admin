@@ -7,7 +7,7 @@
   <div class="order-form" [formGroup]="createOrderForm">
     <div class="order-form-customer">
       <div class="order-form-customer-title title-h5">Данные заказчика</div>
-
+        <div class="block-input">
         <input
           type="text"
           class="input"
@@ -34,6 +34,8 @@
           placeholder="Отчество"
           formControlName="fatherName"
         />
+    </div>
+        <div class="block-input">
         <input
         type="text"
         class="input"
@@ -63,6 +65,8 @@
       placeholder="e-mail"
       formControlName="email"
     />
+</div>
+
     <textarea
     type="text"
     class="input textarea"
@@ -73,6 +77,7 @@
     </div>
     <div class="order-form-order">
         <div class="order-form-order-title title-h4">Информация о заказе</div>
+        <div class="block-input">
         <input
         type="text"
         class="input"
@@ -85,6 +90,7 @@
           placeholder="Стоимость"
           formControlName="orderPrice"
         />
+    </div>
         <textarea
         type="text"
         class="input textarea"
@@ -94,7 +100,41 @@
 
     </div>
     <div class="order-form-file">
-        <input type="file" (change)="onFileSelected($event)">
-    </div>
-  </div>
+        <textarea type="file" class="input file" (change)="onFilesSelected($event)" multiple></textarea>
+      </div>
+</div>
+<div class="order-form-payment">
+    <div class="order-form-payment-title title-h4">Оплата заказа</div>
+    @if(payment){
+        <button class="order-payment-history button" (click)="changeIsHistoryPaymentActive()">История платежей
+        </button>
+    }
+    @if (isHistoryPaymentActive && payment) {
+        <div class="history-payment-list" (click)="changeIsHistoryPaymentActive()">
+          <div class="close-history" (click)="changeIsHistoryPaymentActive()">Закрыть</div>
+          @for (historyPayment of payment.listHistoryPayment; track historyPayment) {
+            <div class="history-payment-item">
+            <span class="order-payment-payment">Сумма: {{ historyPayment.payment }}</span>
+            <span class="order-payment-date">Дата: {{ historyPayment.paymentData }}</span>
+            <div class="order-payment-comment">Комментарий: {{ historyPayment.comment }}</div>
+            </div>
+          }
+        </div>
+      }
+      <div class="order-payment-add">
+        <div class="order-payment-add-title title-h5">Добавить оплату</div>
+        <input
+        type="text"
+        class="input"
+        placeholder="Сумма"
+        formControlName="payment"
+      />
+      <textarea
+      type="text"
+      class="input textarea"
+      placeholder="Комментарий"
+      formControlName="comment"
+      ></textarea>
+      </div>
+</div>
 </section>

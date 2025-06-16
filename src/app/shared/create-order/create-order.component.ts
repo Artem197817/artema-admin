@@ -24,6 +24,7 @@ export class CreateOrderComponent implements OnInit {
   protected customer: Customer | null = null;
   protected order: Order | null = null;
   protected payment: OrderPayment | null = null;
+  protected isHistoryPaymentActive: boolean = false;
 
   constructor(private activatedRoute: ActivatedRoute,
               private orderService: OrderService,
@@ -47,7 +48,12 @@ export class CreateOrderComponent implements OnInit {
                     orderPrice: [''],
                     orderDescription: [''],
                   }),
-                  orderFile: [null] // поле для файла
+                  orderFile: [null] ,// поле для файла
+
+                  payment: this.fb.group({
+                    payment: [''],
+                    comment: [''],
+                  })
                 });
               }
 
@@ -84,12 +90,11 @@ loadOrder(orderId: string){
 
   })
 }
-onFileSelected(event: Event) {
+onFilesSelected(event: Event) {
   const input = event.target as HTMLInputElement;
   if (input.files && input.files.length > 0) {
-    const file = input.files[0];
-    this.createOrderForm.patchValue({ orderFile: file });
-    // Если нужно, можно сразу прочитать файл как base64 или отправить на сервер
+    const files: File[] = Array.from(input.files);
+    this.createOrderForm.patchValue({ orderFile: files });
   }
 }
 submit() {
@@ -108,7 +113,9 @@ submit() {
   // Отправляем formData через HttpClient
  // this.http.post('/api/orders', formData).subscribe(...);
 }
-
+protected changeIsHistoryPaymentActive() {
+  this.isHistoryPaymentActive = !this.isHistoryPaymentActive;
+}
 
 }
 /**Для отправки данных формы и файла с Angular на сервер (Spring Boot), оптимальным решением будет использование DTO с файлом и аннотацией @ModelAttribute или @RequestPart на сервере. Это позволяет принимать как обычные поля, так и файл в одном запросе с типом multipart/form-data.

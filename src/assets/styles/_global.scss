@@ -58,7 +58,7 @@ body{
   }
 }
 
-input{
+.input{
   width: 360px;
   height: 48px;
   border: 1px solid $font-color;
@@ -75,4 +75,13 @@ input{
   &::placeholder{
     color: $font-color-08;
   }
+  &.textarea{
+    padding: 12px;
+    height: 96px;
+  }
+}
+.block-input{
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
 }
