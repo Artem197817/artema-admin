@@ -100,8 +100,37 @@
 
     </div>
     <div class="order-form-file">
-        <textarea type="file" class="input file" (change)="onFilesSelected($event)" multiple></textarea>
-      </div>
+        
+        <div
+          id="drop-area"
+          class="upload-zone input file"
+          [class.dragover]="isDragOver"
+          (dragenter)="onDragOver($event)"
+          (dragover)="onDragOver($event)"
+          (dragleave)="onDragLeave($event)"
+          (drop)="onDrop($event)"
+        >
+          <p class="drop-title">Сюда можно поместить файл</p>
+          <input
+            type="file"
+            #fileElem
+            name="files"
+            multiple
+            style="display: none"
+            (change)="onFileSelected($event)"
+          />
+          <div id="file-list">
+            <div *ngIf="filesToUpload.length === 0">Файлы не выбраны.</div>
+            <div *ngFor="let file of filesToUpload; let idx = index">
+              {{ file.name }} ({{ (file.size / 1024) | number:'1.0-0' }} КБ)
+              <button type="button" (click)="removeFile(idx)" style="margin-left:10px;">×</button>
+            </div>
+          </div>
+        </div>
+        <button type="button" class="button hvr-float-shadow" (click)="openFileDialog()">
+          Прикрепить файл(ы)
+        </button>
+        </div>
 </div>
 <div class="order-form-payment">
     <div class="order-form-payment-title title-h4">Оплата заказа</div>

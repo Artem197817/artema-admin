@@ -22,8 +22,15 @@
         }
         .order-form-file{
             margin-bottom: 36px;
-            .file{
-                height: 96px;
+            .upload-zone{
+                height: 156px;
+                position: relative;
+                padding: 36px;
+                .drop-title{
+                    position: absolute;
+                    top: 0px;
+                    left: 12px;
+                }
             }
         }
     }

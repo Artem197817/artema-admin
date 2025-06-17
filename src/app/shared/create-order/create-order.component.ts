@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Customer } from '../../types/customer.type';
 import { Order, OrderPayment } from '../../types/order.type';
 import { ActivatedRoute } from '@angular/router';
@@ -19,12 +19,17 @@ import { CommonModule } from '@angular/common';
   styleUrl: './create-order.component.scss'
 })
 export class CreateOrderComponent implements OnInit {
+  @ViewChild('fileElem') fileElem!: ElementRef<HTMLInputElement>;
+  
   protected createOrderForm: FormGroup;
   orderId: string | null = null;
   protected customer: Customer | null = null;
   protected order: Order | null = null;
   protected payment: OrderPayment | null = null;
   protected isHistoryPaymentActive: boolean = false;
+  filesToUpload: File[] = [];
+  isDragOver = false;
+
 
   constructor(private activatedRoute: ActivatedRoute,
               private orderService: OrderService,
@@ -55,6 +60,7 @@ export class CreateOrderComponent implements OnInit {
                     comment: [''],
                   })
                 });
+                
               }
 
   ngOnInit() {
@@ -115,6 +121,52 @@ submit() {
 }
 protected changeIsHistoryPaymentActive() {
   this.isHistoryPaymentActive = !this.isHistoryPaymentActive;
+}
+onDragOver(event: DragEvent) {
+  event.preventDefault();
+  event.stopPropagation();
+  this.isDragOver = true;
+}
+
+onDragLeave(event: DragEvent) {
+  event.preventDefault();
+  event.stopPropagation();
+  this.isDragOver = false;
+}
+
+onDrop(event: DragEvent) {
+  event.preventDefault();
+  event.stopPropagation();
+  this.isDragOver = false;
+  if (event.dataTransfer?.files) {
+    this.filesToUpload = this.filesToUpload.concat(Array.from(event.dataTransfer.files));
+    this.updateOrderFileControl();
+  }
+}
+
+onFileSelected(event: Event) {
+  const input = event.target as HTMLInputElement;
+  if (input.files) {
+    this.filesToUpload = this.filesToUpload.concat(Array.from(input.files));
+    this.updateOrderFileControl();
+    input.value = '';
+  }
+}
+
+removeFile(idx: number) {
+  this.filesToUpload.splice(idx, 1);
+  this.updateOrderFileControl();
+}
+
+updateOrderFileControl() {
+  // Обновляем FormControl значением массива файлов
+  this.createOrderForm.get('orderFile')?.setValue(this.filesToUpload.length ? this.filesToUpload : null);
+  this.createOrderForm.get('orderFile')?.markAsDirty();
+  this.createOrderForm.get('orderFile')?.updateValueAndValidity();
+}
+
+openFileDialog() {
+  this.fileElem.nativeElement.click();
 }
 
 }
