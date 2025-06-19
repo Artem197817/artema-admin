@@ -1,0 +1,14 @@
+import { Component } from '@angular/core';
+import { Customer } from '../../types/customer.type';
+
+@Component({
+  selector: 'app-customers',
+  standalone: true,
+  imports: [],
+  templateUrl: './customers.component.html',
+  styleUrl: './customers.component.scss'
+})
+export class CustomersComponent {
+
+  protected customers: Customer[] = [];
+}

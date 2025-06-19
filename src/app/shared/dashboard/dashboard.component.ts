@@ -19,6 +19,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.checkWidth(window.innerWidth);
+    console.log(this.isMenuActive)
   }
 
   @HostListener('window:resize', ['$event'])

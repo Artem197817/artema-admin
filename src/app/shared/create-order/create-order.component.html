@@ -6,101 +6,102 @@
   }
   <div class="order-form" [formGroup]="createOrderForm">
     <div class="order-form-customer">
-      <div class="order-form-customer-title title-h5">Данные заказчика</div>
+      <div class="order-form-customer-title title-h4">Данные заказчика</div>
+      <div formGroupName="customer">
         <div class="block-input">
-        <input
-          type="text"
-          class="input"
-          [ngStyle]="{
-            borderColor:
-              createOrderForm.get('name')?.invalid &&
-              (createOrderForm.get('name')?.dirty ||
-                createOrderForm.get('name')?.touched)
-                ? 'red'
-                : ''
-          }"
-          placeholder="Имя"
-          formControlName="name"
-        />
-        <input
-          type="text"
-          class="input"
-          placeholder="Фамилия"
-          formControlName="lastName"
-        />
-        <input
-          type="text"
-          class="input"
-          placeholder="Отчество"
-          formControlName="fatherName"
-        />
-    </div>
+          <input
+            type="text"
+            class="input"
+            [ngStyle]="{
+              borderColor:
+                createOrderForm.get('name')?.invalid &&
+                (createOrderForm.get('name')?.dirty ||
+                  createOrderForm.get('name')?.touched)
+                  ? 'red'
+                  : ''
+            }"
+            placeholder="Имя"
+            formControlName="name"
+          />
+          <input
+            type="text"
+            class="input"
+            placeholder="Фамилия"
+            formControlName="lastName"
+          />
+          <input
+            type="text"
+            class="input"
+            placeholder="Отчество"
+            formControlName="fatherName"
+          />
+        </div>
         <div class="block-input">
-        <input
-        type="text"
-        class="input"
-        [ngStyle]="{
-          borderColor:
-            createOrderForm.get('phone')?.invalid &&
-            (createOrderForm.get('phone')?.dirty ||
-              createOrderForm.get('phone')?.touched)
-              ? 'red'
-              : ''
-        }"
-        placeholder="Телефон"
-        formControlName="phone"
-      />
- 
-      <input
-      type="text"
-      class="input"
-      [ngStyle]="{
-        borderColor:
-          createOrderForm.get('email')?.invalid &&
-          (createOrderForm.get('email')?.dirty ||
-            createOrderForm.get('email')?.touched)
-            ? 'red'
-            : ''
-      }"
-      placeholder="e-mail"
-      formControlName="email"
-    />
-</div>
+          <input
+            type="text"
+            class="input"
+            [ngStyle]="{
+              borderColor:
+                createOrderForm.get('phone')?.invalid &&
+                (createOrderForm.get('phone')?.dirty ||
+                  createOrderForm.get('phone')?.touched)
+                  ? 'red'
+                  : ''
+            }"
+            placeholder="Телефон"
+            formControlName="phone"
+          />
 
-    <textarea
-    type="text"
-    class="input textarea"
-    placeholder="Комментарий"
-    formControlName="comment"
-    ></textarea>
+          <input
+            type="text"
+            class="input"
+            [ngStyle]="{
+              borderColor:
+                createOrderForm.get('email')?.invalid &&
+                (createOrderForm.get('email')?.dirty ||
+                  createOrderForm.get('email')?.touched)
+                  ? 'red'
+                  : ''
+            }"
+            placeholder="e-mail"
+            formControlName="email"
+          />
+        </div>
 
-    </div>
-    <div class="order-form-order">
-        <div class="order-form-order-title title-h4">Информация о заказе</div>
-        <div class="block-input">
-        <input
-        type="text"
-        class="input"
-        placeholder="Наименование заказа"
-        formControlName="orderName"
-      />
-      <input
-          type="text"
-          class="input"
-          placeholder="Стоимость"
-          formControlName="orderPrice"
-        />
-    </div>
         <textarea
-        type="text"
-        class="input textarea"
-        placeholder="Описание заказа"
-        formControlName="orderDescription"
+          type="text"
+          class="input textarea"
+          placeholder="Комментарий"
+          formControlName="comment"
         ></textarea>
+      </div>
 
-    </div>
-    <div class="order-form-file">
-        
+      <div class="order-form-order">
+        <div class="order-form-order-title title-h4">Информация о заказе</div>
+        <div formGroupName="order">
+          <div class="block-input">
+            <input
+              type="text"
+              class="input"
+              placeholder="Наименование заказа"
+              formControlName="orderName"
+            />
+            <input
+              type="text"
+              class="input"
+              placeholder="Стоимость"
+              formControlName="orderPrice"
+            />
+          </div>
+          <textarea
+            type="text"
+            class="input textarea"
+            placeholder="Описание заказа"
+            formControlName="orderDescription"
+          ></textarea>
+        </div>
+      </div>
+      <div class="order-form-file">
         <div
           id="drop-area"
           class="upload-zone input file"
@@ -122,48 +123,77 @@
           <div id="file-list">
             <div *ngIf="filesToUpload.length === 0">Файлы не выбраны.</div>
             <div *ngFor="let file of filesToUpload; let idx = index">
-              {{ file.name }} ({{ (file.size / 1024) | number:'1.0-0' }} КБ)
-              <button type="button" (click)="removeFile(idx)" style="margin-left:10px;">×</button>
+              {{ file.name }} ({{ file.size / 1024 | number : "1.0-0" }} КБ)
+              <button
+                type="button"
+                (click)="removeFile(idx)"
+                style="margin-left: 10px"
+              >
+                ×
+              </button>
             </div>
           </div>
         </div>
-        <button type="button" class="button hvr-float-shadow" (click)="openFileDialog()">
+        <button
+          type="button"
+          class="button hvr-float-shadow"
+          (click)="openFileDialog()"
+        >
           Прикрепить файл(ы)
         </button>
+      </div>
+    </div>
+    <div class="order-form-payment">
+      <div class="order-form-payment-title title-h4">Оплата заказа</div>
+      @if(payment){
+      <button
+        class="order-payment-history button"
+        (click)="changeIsHistoryPaymentActive()"
+      >
+        История платежей
+      </button>
+      } @if (isHistoryPaymentActive && payment) {
+      <div
+        class="history-payment-list"
+        (click)="changeIsHistoryPaymentActive()"
+      >
+        <div class="close-history" (click)="changeIsHistoryPaymentActive()">
+          Закрыть
         </div>
-</div>
-<div class="order-form-payment">
-    <div class="order-form-payment-title title-h4">Оплата заказа</div>
-    @if(payment){
-        <button class="order-payment-history button" (click)="changeIsHistoryPaymentActive()">История платежей
-        </button>
-    }
-    @if (isHistoryPaymentActive && payment) {
-        <div class="history-payment-list" (click)="changeIsHistoryPaymentActive()">
-          <div class="close-history" (click)="changeIsHistoryPaymentActive()">Закрыть</div>
-          @for (historyPayment of payment.listHistoryPayment; track historyPayment) {
-            <div class="history-payment-item">
-            <span class="order-payment-payment">Сумма: {{ historyPayment.payment }}</span>
-            <span class="order-payment-date">Дата: {{ historyPayment.paymentData }}</span>
-            <div class="order-payment-comment">Комментарий: {{ historyPayment.comment }}</div>
-            </div>
-          }
+        @for (historyPayment of payment.listHistoryPayment; track
+        historyPayment) {
+        <div class="history-payment-item">
+          <span class="order-payment-payment"
+            >Сумма: {{ historyPayment.payment }}</span
+          >
+          <span class="order-payment-date"
+            >Дата: {{ historyPayment.paymentData }}</span
+          >
+          <div class="order-payment-comment">
+            Комментарий: {{ historyPayment.comment }}
+          </div>
         </div>
+        }
+      </div>
       }
       <div class="order-payment-add">
         <div class="order-payment-add-title title-h5">Добавить оплату</div>
-        <input
-        type="text"
-        class="input"
-        placeholder="Сумма"
-        formControlName="payment"
-      />
-      <textarea
-      type="text"
-      class="input textarea"
-      placeholder="Комментарий"
-      formControlName="comment"
-      ></textarea>
+        <div formGroupName="payment">
+          <input
+            type="text"
+            class="input"
+            placeholder="Сумма"
+            formControlName="payment"
+          />
+          <textarea
+            type="text"
+            class="input textarea"
+            placeholder="Комментарий"
+            formControlName="comment"
+          ></textarea>
+        </div>
       </div>
-</div>
+    </div>
+  </div>
+  <button class="button">Сохранить</button>
 </section>

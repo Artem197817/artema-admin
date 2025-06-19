@@ -25,14 +25,18 @@ export const routes: Routes = [
         data: { backgroundImage: 'assets/images/body-bg/order-bg1.png'}
       },
       {
-        path: 'create-order/:orderId',
-        loadComponent: () => import('./shared').then(m => m.CreateOrderComponent),
+       path: 'create-order/:orderId',
+      loadComponent: () => import('./shared').then(m => m.CreateOrderComponent),
         data: { backgroundImage: 'assets/images/body-bg/order-bg1.png'}
       },
       { path: 'orders',
         loadComponent: () => import('./shared').then(m => m.OrdersComponent),
         data: { backgroundImage: 'assets/images/body-bg/orders-bg2.png'}
       },
+      { path: 'customers',
+      loadComponent: () => import('./shared').then(m => m.CustomersComponent),
+      data: { backgroundImage: 'assets/images/body-bg/orders-bg.png'}
+    },
     ]
   },
   {

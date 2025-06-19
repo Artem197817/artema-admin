@@ -28,11 +28,52 @@
                 padding: 36px;
                 .drop-title{
                     position: absolute;
-                    top: 0px;
-                    left: 12px;
+                    top: -10px;
+                    left: 15px;
                 }
             }
         }
-    }
+        .order-form-payment{
+            .order-form-payment-title{
+                margin-bottom: 12px;
+            }
+            .order-payment-history{
+                margin-top: 12px;
+                margin-bottom: 12px;
+            }
+            .history-payment-list {
+                position: relative;
+                margin-bottom: 12px;
+                box-sizing: border-box;
+                padding: 24px;
+                border-radius: 10px;
+                border: 1px solid $font-color;
+                width: 452px;
     
+                .close-history {
+                  position: absolute;
+                  top: 6px;
+                  right: 12px;
+                  cursor: pointer;
+                }
+    
+                .history-payment-item {
+                  margin-bottom: 6px;
+    
+                  span {
+                    margin-right: 6px;
+                  }
+                }
+        }
+        .order-payment-add{
+            .order-payment-add-title{
+                margin-bottom: 12px;
+            }
+        }
+    }
+    }
+    .button{
+        margin-top: 48px;
+        width: 290px;
+        }
 }
