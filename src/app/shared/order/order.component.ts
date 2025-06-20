@@ -57,8 +57,7 @@ export class OrderComponent implements OnInit {
           .subscribe((data: Order) => {
 
             this.order = data;
-            console.log(this.order)
-            console.log(this.order?.orderStatusHistory)
+      
             if (this.order && this.order.orderStatusHistory) {
               if (this.order.orderStatusHistory.length <= 3) {
                 this.orderStatusHistoryShort = this.order.orderStatusHistory;

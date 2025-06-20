@@ -1,10 +1,13 @@
 import { Component } from '@angular/core';
 import { Customer } from '../../types/customer.type';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-customers',
   standalone: true,
-  imports: [],
+  imports: [
+    RouterModule,
+  ],
   templateUrl: './customers.component.html',
   styleUrl: './customers.component.scss'
 })

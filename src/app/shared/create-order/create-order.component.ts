@@ -22,13 +22,14 @@ export class CreateOrderComponent implements OnInit {
   @ViewChild('fileElem') fileElem!: ElementRef<HTMLInputElement>;
   
   protected createOrderForm: FormGroup;
-  orderId: string | null = null;
+  orderId: number | null = null;
   protected customer: Customer | null = null;
   protected order: Order | null = null;
   protected payment: OrderPayment | null = null;
   protected isHistoryPaymentActive: boolean = false;
   filesToUpload: File[] = [];
   isDragOver = false;
+  customerId: number | null = null;
 
 
   constructor(private activatedRoute: ActivatedRoute,
@@ -65,27 +66,30 @@ export class CreateOrderComponent implements OnInit {
 
   ngOnInit() {
     this.activatedRoute.paramMap.subscribe(params => {
-      this.orderId = params.get('orderId');
-      if (this.orderId) {
-        // Режим редактирования: загрузить данные заказа
+      let orderId = params.get('orderId');
+      let customerId = params.get('customerId');
+      if(orderId !== null){
+        this.orderId = +orderId;
         this.loadOrder(this.orderId);
-      } else {
-        // Режим создания: очистить форму
-        this.order = null;
+        return;
       }
+      if(customerId !== null){
+        this.customerId = +customerId;
+        this.loadCustomer(this.customerId);
+        return;
+      }
+      this.order = null;
+ 
     });
 }
-loadOrder(orderId: string){
-  this.orderService.getOrderById(+orderId)
+loadOrder(orderId: number){
+  this.orderService.getOrderById(orderId)
   .subscribe((data: Order) => {
 
     this.order = data;
     console.log(this.order)
     if (this.order && this.order.customerId) {
-      this.customerService.getCustomerById(this.order.customerId)
-        .subscribe((customer: Customer) => {
-          this.customer = customer;
-        })
+      this.loadCustomer(this.order.customerId);
     }
     if (this.order && this.order.orderId) {
       this.paymentService.getPaymentByOrderId(this.order.orderId)
@@ -96,6 +100,14 @@ loadOrder(orderId: string){
 
   })
 }
+private loadCustomer(customerId: number){
+  if(!customerId){return}
+  this.customerService.getCustomerById(customerId)
+        .subscribe((customer: Customer) => {
+          this.customer = customer;
+        })
+}
+
 onFilesSelected(event: Event) {
   const input = event.target as HTMLInputElement;
   if (input.files && input.files.length > 0) {

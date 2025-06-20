@@ -156,7 +156,7 @@
           }
 
         </div>
-        <div class="button order-edit-button">Редактировать</div>
+        <a class="button order-edit-button" [routerLink]="['/create-order']" [queryParams]="{ orderId: order.orderId }">Редактировать</a>
       }
 
 

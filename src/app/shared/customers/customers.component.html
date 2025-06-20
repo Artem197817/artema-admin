@@ -1,4 +1,23 @@
 <section class="customers">
-    <div class="customers-title title-h3">Заказчики</div>
-    
+  <div class="customers-title title-h3">Заказчики</div>
+  @if(customers && customers.length > 0){ @for(customer of customers; track
+  customer.id){
+  <div class="customer">
+    <div class="order-card-customer-title title-h5">Заказчик</div>
+    <div class="customer-full-name">
+      @if (customer.lastName) {
+      <span class="customer-lastname">{{ customer.lastName }}</span>
+      }
+      <span class="customer-name">Имя: {{ customer.name }}</span>
+
+      @if (customer.fatherName) {
+      <span class="customer-lastname">{{ customer.fatherName }}</span>
+      }
+    </div>
+    <div class="customer-phone">Телефон: {{ customer.phone }}</div>
+    <div class="customer-email">e-mail {{ customer.email }}</div>
+    <button class="button">Редактировать</button>
+    <a class="button" [routerLink]="['/create-order']" [queryParams]="{ customerId: customer.id }">Создать заказ</a>
+  </div>
+  } }
 </section>
