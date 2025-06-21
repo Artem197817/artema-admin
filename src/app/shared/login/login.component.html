@@ -1,8 +1,8 @@
 <section class="login-container">
   <h2 class="login-title  title-h2"> Вход в систему</h2>
   <form (ngSubmit)="login()" class="login-form">
-    <input [(ngModel)]="username" name="username" placeholder="Логин" required />
-    <input [(ngModel)]="password" name="password" type="password" placeholder="Пароль" required />
+    <input class="input" [(ngModel)]="username" name="username" placeholder="Логин" required />
+    <input class="input" [(ngModel)]="password" name="password" type="password" placeholder="Пароль" required />
     <button type="submit" class="button">Войти</button>
   </form>
   @if (error){

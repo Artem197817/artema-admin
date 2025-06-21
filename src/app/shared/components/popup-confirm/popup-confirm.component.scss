@@ -1,0 +1,42 @@
+@use '../../../../assets/styles/variables' as *;
+
+.overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: $background-color-08;
+  z-index: 100;
+}
+
+.popup {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  background: $background-color;
+  padding: 20px;
+  border-radius: 15px;
+  z-index: 110;
+  color: $font-color;
+  box-sizing: border-box;
+  width: 290px;
+  border: 1px solid $font-color;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  p{
+    text-align: center;
+    margin: 0;
+  }
+
+  .button-block{
+    margin-top: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 200px;
+    .button{
+      width: 70px;
+    }
+  }
+}

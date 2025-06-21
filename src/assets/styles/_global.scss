@@ -56,6 +56,10 @@ body{
     height: 24px;
     font-size: 14px;
   }
+  &.button-transparent{
+    background: $background-color;
+    color: $font-color;
+  }
 }
 
 .input{
