@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import {OrderService} from '../../services/order.service';
 import {CustomerService} from '../../services/customer.service';
 import {TruncateTextPipe} from '../../utils/truncate-text.pipe';
-import {Order} from '../../types/order.type';
+
 import {OrderMini} from '../../types/order-mini.type';
 import {PopupConfirmComponent} from '../components/popup-confirm/popup-confirm.component';
 import {Status} from '../../types/status.types';
@@ -95,6 +95,11 @@ export class CustomersComponent implements OnInit {
   }
 
   applyFilter() {
+    this.customerService.getCustomersByStatuses(this.selectedStatuses).subscribe(
+      (customers: Customer[]) => {
+        this.customers = customers;
+      }
+    )
 
   }
 }

@@ -4,6 +4,29 @@
   .customers-title{
     margin-bottom: 36px;
   }
+  .customers-filter-block{
+    display: flex;
+justify-content: space-between;
+align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 36px;
+
+    .customers-filter-order-status{
+      position: relative;
+      .filter-block{
+        position: absolute;
+        top: 0;
+        left: 20px;
+        padding: 12px;
+        border: 1px solid $font-color;
+        border-radius: 15px;
+        input{
+
+        }
+      }
+    }
+  }
+
   .customer-items {
     display: flex;
     align-items: center;
