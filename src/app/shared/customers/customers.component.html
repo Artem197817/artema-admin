@@ -16,10 +16,20 @@
           <button class="button button-mini button-transparent" (click)="applyFilter()">Применить</button>
         </div>
           }
+
+
     </div>
-    <div class="customers-no-order"></div>
-    <div class="customers-search"></div>
-    <div class="customers-filter-reset"></div>
+    <div class="customers-without-orders">
+      <button class="button button-transparent" (click)="getCustomersWithoutOrders()">Без заказов</button>
+    </div>
+    <div class="customers-filter-reset">
+      <button class="button button-transparent" (click)="filterReset()">Сбросить фильтры</button>
+    </div>
+    <div class="customers-search">
+      <input type="text" [(ngModel)]="searchQuery" class="input customers-search-input">
+      <button class="button button-mini button-transparent" (click)="customersSearch()">Поиск</button>
+    </div>
+
   </div>
   @if (customers && customers.length > 0) {
     <div class="customer-items">

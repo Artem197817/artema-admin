@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {environment} from '../../environments/environment';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Customer } from '../types/customer.type';
 import {SimpleResponseType} from '../types/simpleResponse.type';
@@ -28,4 +28,14 @@ export class CustomerService {
   getCustomersByStatuses(statuses: string[]): Observable<Customer[]> {
     return this.http.post<Customer[]>(`${this.url}/filter-by-statuses`, statuses);
   }
+
+  public getCustomersWithoutOrders (): Observable<Customer[]> {
+    return this.http.get<Customer[]>(this.url + '/without-orders');
+  }
+
+  public searchCustomers(query: string): Observable<Customer[]> {
+    const params = new HttpParams().set('q', query);
+    return this.http.get<Customer[]>(`${this.url}/search`, { params });
+  }
+
 }

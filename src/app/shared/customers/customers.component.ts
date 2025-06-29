@@ -8,6 +8,7 @@ import {TruncateTextPipe} from '../../utils/truncate-text.pipe';
 import {OrderMini} from '../../types/order-mini.type';
 import {PopupConfirmComponent} from '../components/popup-confirm/popup-confirm.component';
 import {Status} from '../../types/status.types';
+import {FormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-customers',
@@ -16,6 +17,7 @@ import {Status} from '../../types/status.types';
     RouterModule,
     TruncateTextPipe,
     PopupConfirmComponent,
+    FormsModule,
   ],
   templateUrl: './customers.component.html',
   styleUrl: './customers.component.scss'
@@ -31,6 +33,7 @@ export class CustomersComponent implements OnInit {
   selectedStatuses: string[] = [];
   protected isFilterOrderStatusActive: boolean = false;
   protected isOrderNoActive: boolean = false;
+  protected searchQuery: string = '';
 
   constructor(private orderService: OrderService,
               private customerService: CustomerService,) {}
@@ -101,5 +104,22 @@ export class CustomersComponent implements OnInit {
       }
     )
 
+  }
+
+  filterReset() {
+    this.getCustomers()
+  }
+
+  getCustomersWithoutOrders() {
+    this.customerService.getCustomersWithoutOrders().subscribe(
+      customers => {
+        this.customers = customers;
+      });
+  }
+
+  customersSearch() {
+  this.customerService.searchCustomers(this.searchQuery).subscribe(
+    customers => {this.customers = customers;}
+  )
   }
 }

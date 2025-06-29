@@ -15,11 +15,12 @@ align-items: center;
       position: relative;
       .filter-block{
         position: absolute;
-        top: 0;
-        left: 20px;
+        top: 44px;
+        left: 0;
         padding: 12px;
         border: 1px solid $font-color;
         border-radius: 15px;
+        background: $background-color-08;
         input{
 
         }
