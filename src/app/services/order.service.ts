@@ -37,4 +37,8 @@ export class OrderService {
   public deleteOrder(orderId: number): Observable<SimpleResponseType> {
     return this.http.delete<SimpleResponseType>(this.url +`/delete_order/${orderId}`);
   }
+
+  public createOrder(formData: FormData): Observable<any> {
+    return this.http.post(this.url, formData);
+  }
 }

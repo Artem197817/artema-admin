@@ -1,12 +1,13 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Customer } from '../../types/customer.type';
-import { Order, OrderPayment } from '../../types/order.type';
+import {Order, OrderPayment, OrderStatus} from '../../types/order.type';
 import { ActivatedRoute } from '@angular/router';
 import { OrderService } from '../../services/order.service';
 import { CustomerService } from '../../services/customer.service';
 import { PaymentService } from '../../services/payment.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import {Status} from '../../types/status.types';
 
 @Component({
   selector: 'app-create-order',
@@ -20,7 +21,7 @@ import { CommonModule } from '@angular/common';
 })
 export class CreateOrderComponent implements OnInit {
   @ViewChild('fileElem') fileElem!: ElementRef<HTMLInputElement>;
-  
+
   protected createOrderForm: FormGroup;
   orderId: number | null = null;
   protected customer: Customer | null = null;
@@ -61,7 +62,7 @@ export class CreateOrderComponent implements OnInit {
                     comment: [''],
                   })
                 });
-                
+
               }
 
   ngOnInit() {
@@ -79,7 +80,7 @@ export class CreateOrderComponent implements OnInit {
         return;
       }
       this.order = null;
- 
+
     });
 }
 loadOrder(orderId: number){
@@ -115,22 +116,74 @@ onFilesSelected(event: Event) {
     this.createOrderForm.patchValue({ orderFile: files });
   }
 }
-submit() {
-  const formValue = this.createOrderForm.value;
-  const formData = new FormData();
+  submit() {
+    const formValue = this.createOrderForm.value;
+    const formData = new FormData();
 
-  // Добавляем текстовые поля
-  formData.append('customer', JSON.stringify(formValue.customer));
-  formData.append('order', JSON.stringify(formValue.order));
+    // Добавляем JSON-строки с заказчиком и заказом
+    // Если customer не null — добавляем customerId
+    if (this.customer && this.customer.id) {
+      formValue.customer.id = this.customer.id;
+    }
 
-  // Добавляем файл
-  if (formValue.orderFile) {
-    formData.append('orderFile', formValue.orderFile);
+    // Формируем orderStatus в зависимости от наличия order
+    let orderStatus: OrderStatus;
+
+    if (this.order) {
+      // orderId и текущий orderStatus из this.order
+      formValue.order.orderId = this.order.orderId;
+      orderStatus = this.order.orderStatus;
+    } else {
+      // Новый статус NEW с текущей датой
+      orderStatus = {
+        status: Status.NEW,
+        dateOfChange: new Date().toISOString().split('T')[0], // формат 'YYYY-MM-DD'
+        comment: 'Создан новый заказ'
+      };
+    }
+
+    // Добавляем orderStatus в order
+    formValue.order.orderStatus = orderStatus;
+
+    // Добавляем customerId, если есть
+    if (this.customer && this.customer.id) {
+      formValue.order.customerId = this.customer.id;
+    } else if (this.customerId) {
+      // если customerId есть из параметров маршрута
+      formValue.order.customerId = this.customerId;
+    }
+
+    // Добавляем заказчика и заказ в formData
+    formData.append('customer', JSON.stringify(formValue.customer));
+    formData.append('order', JSON.stringify(formValue.order));
+
+    // Добавляем файлы (если есть)
+    if (this.filesToUpload.length > 0) {
+      this.filesToUpload.forEach(file => {
+        formData.append('orderFiles', file, file.name);
+      });
+    }
+
+    // Добавляем данные оплаты, если есть
+    if (formValue.payment) {
+      formData.append('payment', JSON.stringify(formValue.payment));
+    }
+
+    this.orderService.createOrder(formData).subscribe({
+      next: response => {
+        console.log('Заказ успешно создан', response);
+        // Очистка формы или перенаправление пользователя
+      },
+      error: err => {
+        console.error('Ошибка при создании заказа', err);
+      }
+    });
   }
 
-  // Отправляем formData через HttpClient
- // this.http.post('/api/orders', formData).subscribe(...);
-}
+
+
+
+
 protected changeIsHistoryPaymentActive() {
   this.isHistoryPaymentActive = !this.isHistoryPaymentActive;
 }
