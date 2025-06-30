@@ -1,1 +1,37 @@
-<p>orders works!</p>
+<section class="orders">
+    <div class="orders-title title-h2">Заказы</div>
+    <div class="orders-filter-block">
+        <div class="orders-filter-status filter-item">
+            <button class="button button-transparent" (click)="changeIsFilterBlockActive()">Фильтр по статусу заказа</button>    
+            @if(isFilterBlockActive){
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                <div formArrayName="statuses">
+                  <div *ngFor="let status of statusList; let i = index">
+                    <label>
+                      <input type="checkbox" [formControlName]="i" />
+                      {{ status }}
+                    </label>
+                  </div>
+                </div>
+                <button type="submit" class="button butt0n-mini button-transparent">Применить фильтр</button>
+              </form>
+            }
+        </div>
+        <div class="orders-filter-reset filter-item">
+            <button class="button button-transparent" (click)="filterReset()">Сбросить фильтры</button>
+        </div>
+        <div class="orders-search">
+            <input
+            type="text"
+            [(ngModel)]="searchQuery"
+            class="input customers-search-input filter-item"
+          />
+          <button
+            class="button button-mini button-transparent button-search"
+            (click)="ordersSearch()"
+          >
+            Поиск
+          </button>
+        </div>
+    </div>
+</section>

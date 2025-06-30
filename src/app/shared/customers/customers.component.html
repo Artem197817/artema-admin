@@ -1,94 +1,127 @@
 <section class="customers">
   <div class="customers-title title-h3">Заказчики</div>
   <div class="customers-filter-block">
-    <div class="customers-filter-order-status">
-      <button class="button button-transparent" (click)="isFilterOrderStatusActiveChange()">Фильтровать по статусу заказа</button>
+    <div class="customers-filter-order-status filter-item">
+      <button
+        class="button button-transparent"
+        (click)="isFilterOrderStatusActiveChange()"
+      >
+        Фильтровать по статусу заказа
+      </button>
       @if(isFilterOrderStatusActive){
-        <div class="filter-block">
-          @for(status of statuses; track status){
-          <div>
-            <label>
-              <input type="checkbox" [value]="status" (change)="onStatusChange(status, $event)">
-              {{ status }}
-            </label>
-          </div>
-          }
-          <button class="button button-mini button-transparent" (click)="applyFilter()">Применить</button>
+      <div class="filter-block">
+        @for(status of statuses; track status){
+        <div>
+          <label>
+            <input
+              type="checkbox"
+              [value]="status"
+              (change)="onStatusChange(status, $event)"
+            />
+            {{ status }}
+          </label>
         </div>
-          }
-
-
+        }
+        <button
+          class="button button-mini button-transparent"
+          (click)="applyFilter()"
+        >
+          Применить
+        </button>
+      </div>
+      }
     </div>
-    <div class="customers-without-orders">
-      <button class="button button-transparent" (click)="getCustomersWithoutOrders()">Без заказов</button>
+    <div class="customers-without-orders filter-item">
+      <button
+        class="button button-transparent"
+        (click)="getCustomersWithoutOrders()"
+      >
+        Без заказов
+      </button>
     </div>
-    <div class="customers-filter-reset">
-      <button class="button button-transparent" (click)="filterReset()">Сбросить фильтры</button>
+    <div class="customers-filter-reset filter-item">
+      <button class="button button-transparent" (click)="filterReset()">
+        Сбросить фильтры
+      </button>
     </div>
-    <div class="customers-search">
-      <input type="text" [(ngModel)]="searchQuery" class="input customers-search-input">
-      <button class="button button-mini button-transparent" (click)="customersSearch()">Поиск</button>
+    <div class="customers-search filter-item">
+      <input
+        type="text"
+        [(ngModel)]="searchQuery"
+        class="input customers-search-input"
+      />
+      <button
+        class="button button-mini button-transparent button-search"
+        (click)="customersSearch()"
+      >
+        Поиск
+      </button>
     </div>
-
   </div>
   @if (customers && customers.length > 0) {
-    <div class="customer-items">
-    @for (customer of customers; track
-      customer.id) {
-      <div class="customer">
-        <div class="customer-block-info">
-          <div class="customer-full-name">
-            @if (customer.lastName) {
-              <span class="customer-lastname">{{ customer.lastName }}</span>
-            }
-            <span class="customer-name">Имя: {{ customer.name }}</span>
+  <div class="customer-items">
+    @for (customer of customers; track customer.id) {
+    <div class="customer">
+      <div class="customer-block-info">
+        <div class="customer-full-name">
+          @if (customer.lastName) {
+          <span class="customer-lastname">{{ customer.lastName }}</span>
+          }
+          <span class="customer-name">Имя: {{ customer.name }}</span>
 
-            @if (customer.fatherName) {
-              <span class="customer-lastname">{{ customer.fatherName }}</span>
-            }
-          </div>
-          <div class="customer-phone">Телефон: {{ customer.phone }}</div>
-          <div class="customer-email">e-mail {{ customer.email }}</div>
+          @if (customer.fatherName) {
+          <span class="customer-lastname">{{ customer.fatherName }}</span>
+          }
         </div>
-        <div class="customer-block-button">
-          <button class="button button-mini">Редактировать</button>
-          <a class="button button-mini" [routerLink]="['/create-order']" [queryParams]="{ customerId: customer.id }">Создать
-            заказ</a>
-          <button class="button button-mini" (click)="showOrders(customer.id)">Показать заказы</button>
-          <button class="button button-mini" (click)="showDeletePopup(customer.id)">Удалить</button>
-        </div>
+        <div class="customer-phone">Телефон: {{ customer.phone }}</div>
+        <div class="customer-email">e-mail {{ customer.email }}</div>
       </div>
-    }
+      <div class="customer-block-button">
+        <button class="button button-mini">Редактировать</button>
+        <a
+          class="button button-mini"
+          [routerLink]="['/create-order']"
+          [queryParams]="{ customerId: customer.id }"
+          >Создать заказ</a
+        >
+        <button class="button button-mini" (click)="showOrders(customer.id)">
+          Показать заказы
+        </button>
+        <button
+          class="button button-mini"
+          (click)="showDeletePopup(customer.id)"
+        >
+          Удалить
+        </button>
+      </div>
     </div>
-    @if (isOrderBlockActive) {
-      <div class="order-block-popup">
-        <div class="order-block">
-          <div class="block-close" (click)="isOrderBlockActiveChange()">Закрыть</div>
-          <div class="order-block-title title-h5">Заказы</div>
-          @if (orders && orders.length > 0) {
-            @for (order of orders; track order.orderId) {
-              @if (order.orderName) {
-                <div class="order-name ">Наименование: {{ order.orderName }}</div>
-              }
-              @if (order.orderDescription) {
-                <div class="order-description">Описание; {{ order.orderDescription | truncateText:100 }}</div>
-              }
-              <a [routerLink]="'/order/' + order.orderId " class="button button-mini">Подробнее</a>
-            }
-          }
-          @if (!orders || orders.length === 0) {
-            <div class="order-no">Нет заказов</div>
-          }
-        </div>
-      </div>
     }
-
+  </div>
+  @if (isOrderBlockActive) {
+  <div class="order-block-popup">
+    <div class="order-block">
+      <div class="block-close" (click)="isOrderBlockActiveChange()">
+        Закрыть
+      </div>
+      <div class="order-block-title title-h5">Заказы</div>
+      @if (orders && orders.length > 0) { @for (order of orders; track
+      order.orderId) { @if (order.orderName) {
+      <div class="order-name">Наименование: {{ order.orderName }}</div>
+      } @if (order.orderDescription) {
+      <div class="order-description">
+        Описание; {{ order.orderDescription | truncateText : 100 }}
+      </div>
+      }
+      <a [routerLink]="'/order/' + order.orderId" class="button button-mini"
+        >Подробнее</a
+      >
+      } } @if (!orders || orders.length === 0) {
+      <div class="order-no">Нет заказов</div>
+      }
+    </div>
+  </div>
+  } } @if(isPopupVisible){
+  <app-popup-confirm (confirm)="onConfirmDelete()" (cancel)="onCancelDelete()">
+  </app-popup-confirm>
   }
-  @if(isPopupVisible){
-    <app-popup-confirm
-      (confirm)="onConfirmDelete()"
-      (cancel)="onCancelDelete()">
-    </app-popup-confirm>
-  }
-
 </section>

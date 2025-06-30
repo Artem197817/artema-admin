@@ -89,3 +89,8 @@ body{
   align-items: center;
   flex-wrap: wrap;
 }
+@media (max-width: 420px) {
+ .input {
+  width: 290px;
+ }
+}

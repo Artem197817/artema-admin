@@ -1,15 +1,57 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Status } from '../../types/status.types';
+import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-orders',
   standalone: true,
+  imports: [
+    ReactiveFormsModule,
+    CommonModule,
+    FormsModule,
+  ],
   templateUrl: './orders.component.html',
   styleUrl: './orders.component.scss'
 })
 export class OrdersComponent implements OnInit {
 
+  statusList = Object.values(Status).filter(s => s !== Status.NONE); // Исключим NONE
+  form: FormGroup;
+  protected isFilterBlockActive: boolean = false;
+  protected searchQuery: string = '';
+
+  @Output() filterChanged = new EventEmitter<string[]>(); // Массив статусов на русском
+
+  constructor(private fb: FormBuilder) {
+    this.form = this.fb.group({
+      statuses: this.fb.array(this.statusList.map(() => false))
+    });
+  }
+
+  get statusesArray() {
+    return this.form.get('statuses') as FormArray;
+  }
+
+  onSubmit() {
+    // Собираем выбранные статусы
+    const selectedStatuses = this.statusesArray.value
+      .map((checked: boolean, i: number) => checked ? this.statusList[i] : null)
+      .filter((v: string | null) => v !== null);
+
+    this.filterChanged.emit(selectedStatuses as string[]);
+  }
+
 ngOnInit(): void {
   
 }
+
+protected changeIsFilterBlockActive(){
+  this.isFilterBlockActive = !this.isFilterBlockActive;
+}
+
+protected filterReset(){}
+
+protected ordersSearch(){}
 }
