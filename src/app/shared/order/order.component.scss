@@ -235,10 +235,17 @@
           border: 1px solid $font-color;
         }
       }
-      .order-edit-button{
+      .button-block{
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
         margin-top: 48px;
-        width: 295px;
+        .button-block-item{
+          width: 295px;
+          margin-right: 24px;
+        }
       }
+
     }
   }
 }

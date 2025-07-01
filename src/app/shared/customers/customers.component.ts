@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import { Customer } from '../../types/customer.type';
-import { RouterModule } from '@angular/router';
+import {Router, RouterModule} from '@angular/router';
 import {OrderService} from '../../services/order.service';
 import {CustomerService} from '../../services/customer.service';
 import {TruncateTextPipe} from '../../utils/truncate-text.pipe';
@@ -36,7 +36,8 @@ export class CustomersComponent implements OnInit {
   protected searchQuery: string = '';
 
   constructor(private orderService: OrderService,
-              private customerService: CustomerService,) {}
+              private customerService: CustomerService,
+              private router: Router) {}
 
   ngOnInit(): void {
     this.getCustomers()
@@ -73,6 +74,7 @@ export class CustomersComponent implements OnInit {
     if (this.customerId !== null) {
       this.customerService.deleteCustomer(this.customerId).subscribe(() => {
        this.getCustomers();
+       this.router.navigate(['customers'])
       });
     }
     this.isPopupVisible = false;

@@ -23,9 +23,10 @@ export class OrderService {
     return this.http.get<Order>(this.url +`/${orderId}`);
   }
 
-  public getOrdersAll(): Observable<Order>{
-    return this.http.get<Order>(this.url +`/`);
+  public getOrdersAll(): Observable<OrderMini[]>{
+    return this.http.get<OrderMini[]>(this.url +`/`);
   }
+
 
   downloadFile(fileId: number): Observable<Blob> {
     return this.http.get(`${this.url}/files/${fileId}`, { responseType: 'blob' });
@@ -35,6 +36,7 @@ export class OrderService {
   }
 
   public deleteOrder(orderId: number): Observable<SimpleResponseType> {
+    console.log(orderId)
     return this.http.delete<SimpleResponseType>(this.url +`/delete_order/${orderId}`);
   }
 

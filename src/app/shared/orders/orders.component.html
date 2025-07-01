@@ -2,7 +2,7 @@
     <div class="orders-title title-h2">Заказы</div>
     <div class="orders-filter-block">
         <div class="orders-filter-status filter-item">
-            <button class="button button-transparent" (click)="changeIsFilterBlockActive()">Фильтр по статусу заказа</button>    
+            <button class="button button-transparent" (click)="changeIsFilterBlockActive()">Фильтр по статусу заказа</button>
             @if(isFilterBlockActive){
             <form [formGroup]="form" (ngSubmit)="onSubmit()">
                 <div formArrayName="statuses">
@@ -33,5 +33,12 @@
             Поиск
           </button>
         </div>
+      <div class="main-order-card">
+        @if (orders && orders.length > 0) {
+          @for (order of orders; track order.orderId) {
+            <order-card [order]="order"></order-card>
+          }
+        }
+      </div>
     </div>
 </section>

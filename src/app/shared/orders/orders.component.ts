@@ -3,6 +3,10 @@ import { ActivatedRoute } from '@angular/router';
 import { Status } from '../../types/status.types';
 import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import {OrderCardComponent} from '../components/order-card/order-card.component';
+import {Order} from '../../types/order.type';
+import {OrderMini} from '../../types/order-mini.type';
+import {OrderService} from '../../services/order.service';
 
 @Component({
   selector: 'app-orders',
@@ -11,6 +15,7 @@ import { CommonModule } from '@angular/common';
     ReactiveFormsModule,
     CommonModule,
     FormsModule,
+    OrderCardComponent,
   ],
   templateUrl: './orders.component.html',
   styleUrl: './orders.component.scss'
@@ -21,10 +26,12 @@ export class OrdersComponent implements OnInit {
   form: FormGroup;
   protected isFilterBlockActive: boolean = false;
   protected searchQuery: string = '';
+  protected orders: OrderMini[] = [];
 
   @Output() filterChanged = new EventEmitter<string[]>(); // Массив статусов на русском
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder,
+              private orderService: OrderService,) {
     this.form = this.fb.group({
       statuses: this.fb.array(this.statusList.map(() => false))
     });
@@ -44,7 +51,13 @@ export class OrdersComponent implements OnInit {
   }
 
 ngOnInit(): void {
-  
+  this.getOrders();
+}
+
+protected getOrders(): void {
+  this.orderService.getOrdersAll().subscribe((orders: OrderMini[]) => {
+    this.orders = orders;
+  })
 }
 
 protected changeIsFilterBlockActive(){

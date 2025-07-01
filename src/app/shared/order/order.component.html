@@ -156,10 +156,17 @@
           }
 
         </div>
-        <a class="button order-edit-button" [routerLink]="['/create-order']" [queryParams]="{ orderId: order.orderId }">Редактировать</a>
+        <div class="button-block">
+          <a class="button order-edit-button button-block-item" [routerLink]="['/create-order']" [queryParams]="{ orderId: order.orderId }">Редактировать</a>
+          <button class="button button-block-item" (click)="deleteOrderById(order.orderId)">Удалить</button>
+        </div>
       }
 
 
     </div>
   </div>
+  @if(isPopupVisible){
+  <app-popup-confirm (confirm)="onConfirmDelete()" (cancel)="onCancelDelete()">
+  </app-popup-confirm>
+}
 </section>

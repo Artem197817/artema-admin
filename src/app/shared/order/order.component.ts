@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Customer } from '../../types/customer.type';
 import { Order, OrderPayment, OrderStatus } from '../../types/order.type';
 import { OrderService } from '../../services/order.service';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import { CustomerService } from '../../services/customer.service';
 import { PaymentService } from '../../services/payment.service';
 import { RouterModule } from '@angular/router';
@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import {TruncateTextPipe} from '../../utils/truncate-text.pipe';
 import {firstValueFrom} from 'rxjs';
+import {PopupConfirmComponent} from '../components/popup-confirm/popup-confirm.component';
 declare const window: any;
 
 @Component({
@@ -21,6 +22,7 @@ declare const window: any;
     ReactiveFormsModule,
     RouterLink,
     TruncateTextPipe,
+    PopupConfirmComponent,
   ],
   templateUrl: './order.component.html',
   styleUrl: './order.component.scss'
@@ -36,11 +38,14 @@ export class OrderComponent implements OnInit {
   protected isHistoryActive: boolean = false;
   protected isAddPaymentBlockActive: boolean = false;
   protected isHistoryPaymentActive: boolean = false;
+  protected isPopupVisible: boolean = false;
+  private orderId: number | null = null;
 
   constructor(private activatedRoute: ActivatedRoute,
     private orderService: OrderService,
     private customerService: CustomerService,
     private paymentService: PaymentService,
+    private router: Router,
     private fb: FormBuilder) {
 
     this.paymentForm = this.fb.group({
@@ -57,7 +62,7 @@ export class OrderComponent implements OnInit {
           .subscribe((data: Order) => {
 
             this.order = data;
-      
+
             if (this.order && this.order.orderStatusHistory) {
               if (this.order.orderStatusHistory.length <= 3) {
                 this.orderStatusHistoryShort = this.order.orderStatusHistory;
@@ -167,4 +172,22 @@ export class OrderComponent implements OnInit {
     }
   }
 
+  deleteOrderById(orderId: number) {
+    this.orderId = orderId;
+    this.isPopupVisible = true;
+  }
+
+  onConfirmDelete() {
+    if(this.orderId){
+      this.orderService.deleteOrder(this.orderId)
+        .subscribe(()=>{
+          this.router.navigate(['/']);
+        });
+    }
+    this.isPopupVisible = false;
+  }
+
+  onCancelDelete() {
+    this.isPopupVisible = false;
+  }
 }
