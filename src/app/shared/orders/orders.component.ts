@@ -72,7 +72,7 @@ protected filterReset(){
 protected ordersSearch(){}
 
 
-  onStatusChange(status: string, $event: Event) {
+  onStatusChange(status: string, event: Event) {
     const checked = (event.target as HTMLInputElement).checked;
     if (checked) {
       this.selectedStatuses.push(status);

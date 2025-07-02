@@ -5,26 +5,29 @@
             <button class="button button-transparent" (click)="changeIsFilterBlockActive()">Фильтр по статусу заказа</button>
             @if(isFilterBlockActive){
               <div class="filter-block">
-            <form [formGroup]="form" (ngSubmit)="onSubmit()" >
-                <div formArrayName="statuses">
-                  <div *ngFor="let status of statusList; let i = index">
+                @for(status of statusList; track status){
+                  <div>
                     <label>
-                      <input type="checkbox" [formControlName]="i"
-                             [value]="status"
-                             (change)="onStatusChange(status, $event)"
+                      <input
+                        type="checkbox"
+                        [value]="status"
+                        (change)="onStatusChange(status, $event)"
                       />
                       {{ status }}
                     </label>
                   </div>
-                </div>
-
-                <button type="submit" class="button button-mini button-transparent" (click)="applyFilter()">Применить фильтр</button>
-              </form>
-            </div>
+                }
+                <button
+                  class="button button-mini button-transparent"
+                  (click)="applyFilter()"
+                >
+                  Применить
+                </button>
+              </div>
             }
         </div>
         <div class="orders-filter-reset filter-item">
-            <button class="button button-transparent button-mini" (click)="filterReset()">Сбросить фильтры</button>
+            <button class="button button-transparent" (click)="filterReset()">Сбросить фильтры</button>
         </div>
         <div class="orders-search filter-item">
             <input
