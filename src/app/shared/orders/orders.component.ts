@@ -27,6 +27,7 @@ export class OrdersComponent implements OnInit {
   protected isFilterBlockActive: boolean = false;
   protected searchQuery: string = '';
   protected orders: OrderMini[] = [];
+  private selectedStatuses: string[] = [];
 
   @Output() filterChanged = new EventEmitter<string[]>(); // Массив статусов на русском
 
@@ -64,12 +65,29 @@ protected changeIsFilterBlockActive(){
   this.isFilterBlockActive = !this.isFilterBlockActive;
 }
 
-protected filterReset(){}
+protected filterReset(){
+    this.getOrders();
+}
 
 protected ordersSearch(){}
 
 
-protected applyFilter(){
+  onStatusChange(status: string, $event: Event) {
+    const checked = (event.target as HTMLInputElement).checked;
+    if (checked) {
+      this.selectedStatuses.push(status);
+    } else {
+      this.selectedStatuses = this.selectedStatuses.filter(s => s !== status);
+    }
 
-}
+  }
+
+  applyFilter() {
+    this.orderService.filterOrdersByStatuses(this.selectedStatuses)
+      .subscribe((orders: OrderMini[]) => {
+        this.orders = orders;
+        this.changeIsFilterBlockActive()
+      })
+  }
+
 }

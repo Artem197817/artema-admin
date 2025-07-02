@@ -9,11 +9,15 @@
                 <div formArrayName="statuses">
                   <div *ngFor="let status of statusList; let i = index">
                     <label>
-                      <input type="checkbox" [formControlName]="i" />
+                      <input type="checkbox" [formControlName]="i"
+                             [value]="status"
+                             (change)="onStatusChange(status, $event)"
+                      />
                       {{ status }}
                     </label>
                   </div>
                 </div>
+
                 <button type="submit" class="button button-mini button-transparent" (click)="applyFilter()">Применить фильтр</button>
               </form>
             </div>
@@ -35,7 +39,7 @@
             Поиск
           </button>
         </div>
- 
+
     </div>
 
     <div class="orders-order-card">

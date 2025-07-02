@@ -43,4 +43,8 @@ export class OrderService {
   public createOrder(formData: FormData): Observable<any> {
     return this.http.post(this.url, formData);
   }
+  public filterOrdersByStatuses(statuses: string[]): Observable<OrderMini[]> {
+    return this.http.post<OrderMini[]>(`${this.url}/filter-by-statuses`, statuses);
+  }
+
 }
