@@ -1,0 +1,71 @@
+@use "../../../assets/styles/variables" as *;
+
+.orders{
+    .orders-title{
+        margin-bottom: 48px;
+    }
+    .orders-filter-block{
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        margin-bottom: 36px;
+        .filter-item{
+           margin-bottom: 12px;
+           margin-right: 36px;
+        
+        &:last-child{
+            margin-right: 0;
+        }
+    }
+    .orders-filter-status{
+        position: relative;
+        .filter-block{
+          position: absolute;
+          top: 44px;
+          left: 0;
+          padding: 12px;
+          border: 1px solid $font-color;
+          border-radius: 15px;
+          background: $background-color-08;
+          z-index: 50;
+            .button{
+              margin-top: 12px;
+            }
+        }
+    }
+            .orders-search{
+                position: relative;
+                .input{
+                    padding-right: 108px;
+                    margin-bottom: 0;
+                    margin-right: 0;
+                  }
+                  .button-search{
+                    position: absolute;
+                    top: 12px;
+                    right: 12px;
+                  }
+            }
+        
+    }
+    .orders-order-card{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+}
+@media (max-width: 1260px) {
+    .orders .orders-filter-block{ 
+      justify-content: center;
+  }
+}
+@media (max-width: 480px) {
+    .orders .orders-filter-block{ 
+      justify-content: center;
+
+      .filter-item{ 
+        margin-right: 0;
+      }
+  }
+}

@@ -103,6 +103,7 @@ export class CustomersComponent implements OnInit {
     this.customerService.getCustomersByStatuses(this.selectedStatuses).subscribe(
       (customers: Customer[]) => {
         this.customers = customers;
+        this.isFilterOrderStatusActiveChange();
       }
     )
 

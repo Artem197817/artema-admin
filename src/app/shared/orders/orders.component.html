@@ -4,7 +4,8 @@
         <div class="orders-filter-status filter-item">
             <button class="button button-transparent" (click)="changeIsFilterBlockActive()">Фильтр по статусу заказа</button>
             @if(isFilterBlockActive){
-            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+              <div class="filter-block">
+            <form [formGroup]="form" (ngSubmit)="onSubmit()" >
                 <div formArrayName="statuses">
                   <div *ngFor="let status of statusList; let i = index">
                     <label>
@@ -13,14 +14,15 @@
                     </label>
                   </div>
                 </div>
-                <button type="submit" class="button butt0n-mini button-transparent">Применить фильтр</button>
+                <button type="submit" class="button button-mini button-transparent" (click)="applyFilter()">Применить фильтр</button>
               </form>
+            </div>
             }
         </div>
         <div class="orders-filter-reset filter-item">
-            <button class="button button-transparent" (click)="filterReset()">Сбросить фильтры</button>
+            <button class="button button-transparent button-mini" (click)="filterReset()">Сбросить фильтры</button>
         </div>
-        <div class="orders-search">
+        <div class="orders-search filter-item">
             <input
             type="text"
             [(ngModel)]="searchQuery"
@@ -33,12 +35,14 @@
             Поиск
           </button>
         </div>
-      <div class="main-order-card">
-        @if (orders && orders.length > 0) {
-          @for (order of orders; track order.orderId) {
-            <order-card [order]="order"></order-card>
-          }
+ 
+    </div>
+
+    <div class="orders-order-card">
+      @if (orders && orders.length > 0) {
+        @for (order of orders; track order.orderId) {
+          <order-card [order]="order"></order-card>
         }
-      </div>
+      }
     </div>
 </section>

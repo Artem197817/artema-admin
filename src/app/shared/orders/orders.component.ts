@@ -67,4 +67,9 @@ protected changeIsFilterBlockActive(){
 protected filterReset(){}
 
 protected ordersSearch(){}
+
+
+protected applyFilter(){
+
+}
 }
