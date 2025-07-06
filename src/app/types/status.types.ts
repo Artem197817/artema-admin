@@ -21,3 +21,9 @@ export enum StatusRequest {
   RESUMED = 'RESUMED',
   NONE = 'NONE'
 }
+export type ChangeStatusType = {
+  orderId: number,
+    status: string
+  comment?: string;
+
+}

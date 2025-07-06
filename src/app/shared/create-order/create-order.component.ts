@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Customer } from '../../types/customer.type';
 import {Order, OrderPayment, OrderStatus} from '../../types/order.type';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { OrderService } from '../../services/order.service';
 import { CustomerService } from '../../services/customer.service';
 import { PaymentService } from '../../services/payment.service';
@@ -23,20 +23,21 @@ export class CreateOrderComponent implements OnInit {
   @ViewChild('fileElem') fileElem!: ElementRef<HTMLInputElement>;
 
   protected createOrderForm: FormGroup;
-  orderId: number | null = null;
+  private orderId: number | null = null;
   protected customer: Customer | null = null;
   protected order: Order | null = null;
   protected payment: OrderPayment | null = null;
   protected isHistoryPaymentActive: boolean = false;
-  filesToUpload: File[] = [];
-  isDragOver = false;
-  customerId: number | null = null;
+  protected filesToUpload: File[] = [];
+  protected isDragOver = false;
+  private customerId: number | null = null;
 
 
   constructor(private activatedRoute: ActivatedRoute,
               private orderService: OrderService,
               private customerService: CustomerService,
               private paymentService: PaymentService,
+              private router: Router,
               private fb: FormBuilder,){
 
                 const phonePattern = /^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$/;
@@ -66,9 +67,10 @@ export class CreateOrderComponent implements OnInit {
               }
 
   ngOnInit() {
-    this.activatedRoute.paramMap.subscribe(params => {
+    this.activatedRoute.queryParamMap.subscribe(params => {
       let orderId = params.get('orderId');
       let customerId = params.get('customerId');
+      console.log(orderId);
       if(orderId !== null){
         this.orderId = +orderId;
         this.loadOrder(this.orderId);
@@ -88,7 +90,13 @@ loadOrder(orderId: number){
   .subscribe((data: Order) => {
 
     this.order = data;
-    console.log(this.order)
+    if (this.order) {
+      this.createOrderForm.get('order')?.patchValue({
+        orderName: this.order.orderName || '',
+        orderPrice: this.order.orderPrice || '',
+        orderDescription: this.order.orderDescription || ''
+      });
+    }
     if (this.order && this.order.customerId) {
       this.loadCustomer(this.order.customerId);
     }
@@ -106,7 +114,17 @@ private loadCustomer(customerId: number){
   this.customerService.getCustomerById(customerId)
         .subscribe((customer: Customer) => {
           this.customer = customer;
-        })
+          if (this.customer) {
+            this.createOrderForm.get('customer')?.patchValue({
+              name: this.customer.name || '',
+              lastName: this.customer.lastName || '',
+              fatherName: this.customer.fatherName || '',
+              phone: this.customer.phone || '',
+              email: this.customer.email || '',
+              comment: this.customer.comment || ''
+            });
+          }
+        });
 }
 
 onFilesSelected(event: Event) {
@@ -171,8 +189,10 @@ onFilesSelected(event: Event) {
 
     this.orderService.createOrder(formData).subscribe({
       next: response => {
-        console.log('Заказ успешно создан', response);
-        // Очистка формы или перенаправление пользователя
+       if(this.order && this.order.orderId) {
+         this.router.navigate(['order', this.order.orderId]);
+       }
+        this.router.navigate(['orders'])
       },
       error: err => {
         console.error('Ошибка при создании заказа', err);

@@ -28,12 +28,12 @@ export const routes: Routes = [
     //   path: 'create-order/:orderId',
     // loadComponent: () => import('./shared').then(m => m.CreateOrderComponent),
     //    data: { backgroundImage: 'assets/images/body-bg/order-bg1.png'}
-  //   },
-   //   {
-   //    path: 'create-order/:customerId',
-  //     loadComponent: () => import('./shared').then(m => m.CreateOrderComponent),
-  //       data: { backgroundImage: 'assets/images/body-bg/order-bg1.png'}
- //     },
+    // },
+    //  {
+    //   path: 'create-order/customer/:customerId',
+    //   loadComponent: () => import('./shared').then(m => m.CreateOrderComponent),
+    //     data: { backgroundImage: 'assets/images/body-bg/order-bg1.png'}
+    //  },
       { path: 'orders',
         loadComponent: () => import('./shared').then(m => m.OrdersComponent),
         data: { backgroundImage: 'assets/images/body-bg/orders-bg2.png'}
