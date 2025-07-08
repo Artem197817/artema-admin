@@ -1,13 +1,22 @@
 <div class="change-status-block">
-  <div>
-    <label for="statusSelect">Выберите статус:</label>
-    <select id="statusSelect" [(ngModel)]="selectedStatus">
+  <div class="status-select">
+    <div  class="label">Выберите статус:</div>
+    <select id="statusSelect" class="input" [(ngModel)]="selectedStatus">
       @for (status of statuses; track status){
       <option  [value]="status">{{ status }}</option>
       }
     </select>
   </div>
 
-  <button (click)="changeStatus()">Изменить статус</button>
-
+  <button (click)="isCommentBlocActivated()" class="button button-mini button-transparent">Изменить статус</button>
+  @if(isCommentBlockActive){
+    <div class="comment-block">
+      <div class="comment-block-title">Оставить комментарий?</div>
+      <input type="text" class="input" placeholder="Введите коментарий" [(ngModel)]="comment">
+      <div class="comment-button-block">
+        <button class="button button-transparent button-mini" (click)="changeStatusWithComment()">Да</button>
+        <button class="button button-transparent button-mini" (click)="changeStatusWithoutComment()">Нет</button>
+      </div>
+    </div>
+  }
 </div>

@@ -48,7 +48,7 @@
     <div class="orders-order-card">
       @if (orders && orders.length > 0) {
         @for (order of orders; track order.orderId) {
-          <order-card [order]="order"></order-card>
+           <order-card [order]="order"></order-card>
         }
       }
     </div>

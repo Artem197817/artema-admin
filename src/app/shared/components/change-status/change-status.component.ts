@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {FormsModule} from '@angular/forms';
-import {Status} from '../../../types/status.types';
+import {ChangeStatusType, Status} from '../../../types/status.types';
 import {OrderService} from '../../../services/order.service';
 
 @Component({
@@ -14,24 +14,29 @@ export class ChangeStatusComponent {
 
   @Input() orderId!: number;
 
-  statuses = Object.values(Status).filter(s => s !== Status.NONE);
-  selectedStatus: Status = Status.NEW;
+  protected statuses = Object.values(Status).filter(s => s !== Status.NONE);
+  protected selectedStatus: Status = Status.NEW;
   protected comment: string = '';
+  protected isCommentBlockActive: boolean = false;
+  private payload = {} as ChangeStatusType;
+
 
   constructor(private orderService: OrderService,) {}
 
+  protected isCommentBlocActivated(){
+    this.isCommentBlockActive = true;
+  }
   changeStatus() {
     if (!this.orderId) {
       alert('Order ID не задан');
       return;
     }
 
-    const payload = {
-      orderId: this.orderId,
-      status: this.selectedStatus
-    };
+      this.payload.orderId = this.orderId;
+      this.payload.status = this.selectedStatus;
 
-      this.orderService.changeOrderStatus(payload)
+
+      this.orderService.changeOrderStatus(this.payload)
       .subscribe({
         next: () => alert('Статус успешно изменён'),
         error: err => {
@@ -40,4 +45,17 @@ export class ChangeStatusComponent {
         }
       });
   }
+
+  changeStatusWithoutComment() {
+    this.isCommentBlockActive = false;
+    this.changeStatus();
+  }
+
+  changeStatusWithComment() {
+    this.payload.comment = this.comment;
+    this.isCommentBlockActive = false;
+    this.changeStatus();
+  }
+
+
 }

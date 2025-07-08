@@ -1,7 +1,15 @@
 @if (order) {
 
 <div class="order-card">
-  <div class="order-status title-h4">{{ order.orderStatus }}</div>
+  <div class="order-status title-h4" (click)="changeisStatusActive()">{{ order.orderStatus }} </div>
+  <div class="order-status-change">
+    @if(isChangeStatusActive){
+      <div class="change-status">
+        <div class="close-change-status">Закрыть</div>
+        <app-change-status [orderId]="order.orderId"></app-change-status>
+      </div>
+        }
+  </div>
   <div class="order-card-customer">
     <div class="order-card-customer-title title-h5">Заказчик</div>
     <div class="customer-full-name">

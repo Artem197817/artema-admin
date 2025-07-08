@@ -1,0 +1,39 @@
+.change-status-block{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .status-select{
+    .label{
+      margin-bottom: 12px;
+      text-align: center;
+    }
+    .input{
+      width: 260px;
+      margin-top: 12px;
+    }
+  }
+  .comment-block{
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    .comment-block-title{
+      margin-bottom: 12px;
+      text-align: center;
+    }
+    .input{
+      width: 260px;
+    }
+    .comment-button-block{
+      margin-top: 12px;
+      display: flex;
+      box-sizing: border-box;
+      align-items: center;
+      justify-content: space-between;
+      width: 200px;
+    }
+  }
+}
